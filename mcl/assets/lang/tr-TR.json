@@ -1,0 +1,228 @@
+{   "language": "TR",
+    "title": "Merhaba",
+    "welcome": "afsdf",
+    "msg": "{} Dünyasında merhaba {} ",
+    "clickMe": "Beni tıkla",
+    "profile": {
+      "reset_password": {
+        "label":  "Reset Password",
+        "username": "Username",
+        "password": "password"
+      }
+    },
+    "clicked": {
+      "zero": "You clicked {} times!",
+      "one": "You clicked {} time!",
+      "two":"You clicked {} times!",
+      "few":"You clicked {} times!",
+      "many":"You clicked {} times!",
+      "other": "You clicked {} times!"
+    },
+    "gender":{
+      "male": "Hi man ;) ",
+      "female": "Hello girl :)",
+      "with_arg":{
+        "male": "Hi man ;) {}",
+        "female": "Hello girl :) {}"
+      }
+    },
+    "project":{
+      "name":"MCL Mobil"
+    },
+    "stats":{
+      "activate":"AKTİF",
+      "inloop":"DÖNGÜLER",
+      "normal":"NORMAL",
+      "bearerLoops": "HAMİL DÖNGÜLERİ"
+    },
+    "credit":{
+      "name":"Kredi İşlemleri",
+      "issuer":{
+        "name":"Keşideci",
+        "list_first":"İlk Döngü isteği",
+        "maturesNoRequest":"Belirtilen tarih itibariyle kredi talebi yoktur!",
+        "creditApprove":"Yukarıda belirtilen kredi isteğini onaylıyor musunuz?",
+        "dateAfterRequest":"Tarihten sonraki istekler"
+      },
+      
+      "holder":{
+        "name":"Hamil",
+        "first_credit_request": "İlk Kredi İsteği",
+        "endorsement_request": "Cirolama İsteği",
+        "approveCredit":"Kredi istiyor musunuz?",
+        "approveHolder":"Ciranta istiyor musunuz?"
+      },
+      "endorser":{
+        "name":"Ciranta",
+        "endorsement_request_list": "Cirolama İstekleri Listesi",
+        "bearer_loops": "Hamil Döngüleri",
+        "filter_name":"İsim",
+        "filter_amount":"Miktar",
+        "filter_matures":"Tarih",
+        "matures":"Vade Tarihleri",
+        "maturesFirst":"Vade İlk Tarih",
+        "selectedMaturesFirst":"Seçilen İlk Tarih",
+        "select":"Tarih Seçiniz",
+        "maturesLast":"Vade Son Tarih",
+        "selectedMaturesLast":"Seçilen Vade Son Tarih",
+        "minAmount":"Minimum Değer",
+        "maxAmount":"Maksimum Değer",
+        "all":"Hepsi",
+        "transactinAddress":"İşlem Adresi"
+      },
+      "active_loops":{
+        "name": "Aktif Döngüler"
+      },
+      "endorserRequestNo":"Cirolama isteği yoktur!",
+      "description":"İlk döngü istekleri varsa sağ üst köşedeki Yenile ikonuna basınız",
+      "description2":"İlk Döngü İstekleri",
+      "dateNoSelect":"Vade Seçmediniz!",
+      "SelectedDate":"Seçilen Vade Tarihi",
+      "SelectDate":"Tarih Seçiniz"
+
+    },
+    "common": {
+      "receiver_pup_key": "Alıcı Pub Key",
+      "amount": "Değer",
+      "matures": "Vade",
+      "currency": "MARMARA",
+      "boton_tx_id": "Boton Txid",
+      "request_credit": "Kredi İste",
+      "edit": "Düzenle",
+      "delete": "Sil",
+      "chainActive": "Zincir Akfliği",
+      "chainSync": "Zincir Senkr.",
+      "blockCount":"Blok Sayısı",
+      "allBlockCount":"Tüm Blokların S.",
+      "status":"Durum",
+      "values":"Değerler",
+      "normal":"Normal",
+      "locked":"Kilitli",
+      "looped":"Döngüde",
+      "todayPrize":"Bugünkü Ödül",
+      "totalPrize":"Toplam Ödül",
+      "uptade":"Gün. Tar.",
+      "refresh":"YENİLE",
+      "yes": "EVET",
+      "no": "HAYIR",
+      "ok": "Tamam",
+      "errorCreated":"Hata oluştu, daha sonra tekrar deneyiniz!",
+      "warning":"UYARI",
+      "addressBook":"Adres Defteri",
+      "addressSelect":"Adres Seçiniz",
+      "testmaxthree":"Test sürümünde 3 den fazla eklenemez!",
+      "approve":"Onayla",
+      "copiedToClipboard":"Panoya kopyalandı"
+    },
+    "contact":{
+      "name":"Kişiler",
+      "yet":"Henüz kişi eklemediniz!",
+      "address":"Adres"
+    },
+    "bootstrap":{
+      "name":"Bootstrap Yükleme"
+    },
+    "chain":{
+      "name":"Zincir",
+      "activity": "Zincir Aktifliği",
+      "chainSync": "Zincir Senkr.",
+      "number_block": "Blok Sayısı",
+      "all_block": "Tüm Blokların S.",
+      "currency_unit": "Para Birimi",
+      "diffuculty": "Zorluk",
+      "status": "Durum",
+      "staking": "STAKING",
+      "seePrivate":"Private Key'e Bak",
+      "importPrivate":"Private Key Ekle",
+      "createNewAddress":"Yeni Cüzdan Adresi Oluştur",
+      "workWithoutPubkey":"Pubkeysiz çalışıyor!",
+      "stopChain":"Zinciri durdurun!!",
+      "startPubkey":"Pubkeyiniz ile çalıştırın!!!",
+      "start":"Başlat",
+      "stop":"Durdur",
+      "walletAddress":"Cüzdan Adresi",
+      "pubKey":"PubKey",
+      "myWallet":"cüzdanım",
+      "myWallets":"Cüzdanlarım",
+      "description":"YENİLE Butonu ile sunucunuzun MCL zincir bilgilerine ulaşabilirsiniz. Blok sayısı tüm blokların sayısına eşit olduğunda zinciri durdurup pubKey seçerek başlatınız",
+      "sync":"SENKRON",
+      "async":"ASENKRON",
+      "copiedToClipboard":"panoya kopyalandı",
+      "blockIndexing":"Bloklar indeksleniyor.",
+      "description2":"Şuan indeksleme işlemi yapılıyor, birazdan tekrar deneyin. Yada zincir çalışmıyorsa başlatınız.",
+      "description3":"Pubkeysiz çalışıyor. Zinciri durdurun ve Pubkeyiniz ile çalıştırın",
+      "desciption4":"Hata oluştu, daha sonra tekrar deneyiniz yada sağ üst köşeden yenileyiniz!",
+      "description5":"Zinciri durdurmak istiyor musunuz?",
+      "description6":"Bu son uyarı, zinciri durdurmak istediğinizden emin misiniz?",
+      "title1":"Private Key Sonucu",
+      "description7":"Private Key ile yeni cüzdan adresi eklendi.",
+      "description8":"Yeni cüzdan oluşturuldu.",
+      "logout":"Çıkış yapmak istiyor musunuz?"
+
+    },
+    "wallet":{
+      "name":"Cüzdan",
+      "refresh":"Yenile",
+      "amountInfo":"Değer Bilgisi",
+      "amountDeactivate":"Değer Deaktifleme",
+      "amountActivate":"Değer Aktifleme",
+      "open":"Aç",
+      "lock":"Kilitle",
+      "activateApprove":"Koinleri aktifleştirmek istiyor musunuz?",
+      "deactivateApprove":"Koinleri açmayı onaylıyor musunuz?",
+      "successful":"Başarılı",
+      "failed":"Başarısız, daha sonra tekrar deneyin!"
+
+    },
+    "receivesend":{
+      "name":"Al-Gönder",
+      "amountSend":"Miktar Gönder",
+      "amountReceive":"Miktar Al",
+      "pleaseAddr":"Lütfen adresi buraya yapıştırın",
+      "amountOfSend":"Gönderilecek Miktar",
+      "send":"Gönder",
+      "walletAddress":"Cüzdan Adresim",
+      "copiedToClipboard":"Panoya kopyalandı",
+      "receiveAddress":"Alıcı Adresi",
+      "scanQrCode":"Qr Kodu Tara",
+      "cameraChange":"Kamera değiştir",
+      "cameraResume":"Başlat",
+      "cameraPause":"Durdur",
+      "sendWarning":"Bu işlemin geri dönüşü yoktur. Koin göndermek istediğinize emin misiniz?",
+      "unlockAmount":"Başarısız, daha sonra tekrar deneyin! Kilitli miktar varsa kilidi kaldırdıktan sonra deneyin",
+      "missing":"Eksik yerleri doldurunuz",
+      "characterNumber":"34 karakter cüzdan adresi giriniz",
+      "sending":"gönderiliyor..."
+
+    },
+    "languages": {
+      "turkish": "Türkçe",
+      "english": "İngilizce",
+      "arabic": "Arapça"
+    },
+    "home": {
+      "server":"MCL Sunucuları",
+      "yet": "Henüz MCL sunucusu eklemediniz!",
+      "dash": "MCL Sunucu ile ilgili dashboard",
+      "add": "Ekle",
+      "addServer": "(+) işaretinden sunucu ekleyiniz!",
+      "serverConnect":"Sunucuya Bağlanma",
+      "serverPassword":"Sunucu Parolası",
+      "serverConOk":"Sunucuya Bağlan",
+      "serverAdd":"Sunucu Ekleme",
+      "serverName":"Sunucu Takma Adı",
+      "username":"Kullanıcı Adı",
+      "ipaddress":"IP Adresi",
+      "portNumber":"Port Numarası",
+      "save":"Kaydet",
+      "warning":"Bağlantı kurulamadı. Lütfen girdiğiniz bilgileri kontrol ediniz.",
+      "pubKeyStart":"Zincir aktif değil, senkranizasyon tamamlandığında pubKeyiniz ile başlatınız!",
+      "netError":"İnternet Bağlantınız Yok",
+      "openNet":"Sunucu ile bağlantı kurulması için internetinizi açınız.",
+      "deleteApprove":"isimli sunucuyu silmek istediğinize emin misiniz?",
+      "settings":"Ayarlar",
+      "loading":"bağlanıyor"
+
+    }
+
+  }

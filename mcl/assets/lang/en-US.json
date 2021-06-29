@@ -1,0 +1,222 @@
+{   "language": "EN",
+    "title": "Hello",
+    "msg": "Hello {} in the {} world ",
+    "clickMe": "Click me",
+    "profile": {
+      "reset_password": {
+        "label":  "Reset Password",
+        "username": "Username",
+        "password": "password"
+      }
+    },
+    "clicked": {
+      "zero": "You clicked {} times!",
+      "one": "You clicked {} time!",
+      "two":"You clicked {} times!",
+      "few":"You clicked {} times!",
+      "many":"You clicked {} times!",
+      "other": "You clicked {} times!"
+    },
+    "gender":{
+      "male": "Hi man ;) ",
+      "female": "Hello girl :)",
+      "with_arg":{
+        "male": "Hi man ;) {}",
+        "female": "Hello girl :) {}"
+      }
+    },
+    "project":{
+      "name":"MCL Mobile"
+    },
+    "stats":{
+      "activate":"ACTIVATED",
+      "inloop":"IN-LOOPS",
+      "normal":"NORMALS",
+      "bearerLoops": "BEARER-LOOPS"
+    },
+    "credit":{
+      "name":"Credit Transactions",
+      "issuer":{
+        "name":"Issuer",
+        "list_first":"List Of First Credit Request",
+        "maturesNoRequest":"As of the specified date there is no credit request!",
+        "creditApprove":"Do you approve the above mentioned credit request?",
+        "dateAfterRequest":"Requests after date"
+      },
+      "holder":{
+        "name":"Bearer (Holder)",
+        "first_credit_request": "First Credit Request",
+        "endorsement_request": "Endorsement Request",
+        "approveCredit":"Do you want credit?",
+        "approveHolder":"Do you want endorser?"
+      },
+      "endorser":{
+        "name":"Endorser",
+        "endorsement_request_list": "Endorsement Request List",
+        "bearer_loops": "Bearer Loops",
+        "filter_name":"Name",
+        "filter_amount":"Quantity",
+        "filter_matures":"Matures",
+        "matures":"Maturity dates",
+        "maturesFirst":"Maturity is the first date",
+        "selectedMaturesFirst":"The first date selected",
+        "select":"Select Date",
+        "maturesLast":"Maturity",
+        "selectedMaturesLast":"Selected maturity deadline",
+        "minAmount":"Minimum",
+        "maxAmount":"Maximum value",
+        "all":"All",
+        "transactinAddress":"Transaction address"
+      },
+      "active_loops":{
+        "name": "Active Loops"
+      },
+      "endorserRequestNo":"There is no turnover request!",
+      "description":"Press the Refresh icon in the top right corner if there are first loop requests",
+      "description2":"First Loop Requests",
+      "dateNoSelect":"You have not chosen maturity!",
+      "SelectedDate":"The selected maturity date",
+      "SelectDate":"Select Date"
+
+    },
+    "common": {
+      "receiver_pup_key": "Receiver Pub Key",
+      "amount": "Amount",
+      "matures": "Matures",
+      "currency": "MARMARA",
+      "boton_tx_id": "Boton Txid",
+      "request_credit": "Request Credit",
+      "edit": "Edit",
+      "delete": "Delete",
+      "chainActive": "Chain active",
+      "chainSync": "Chain Sync.",
+      "blockCount":"Block Count",
+      "allBlockCount":"All Block Count",
+      "status":"Status",
+      "values":"Values",
+      "normal":"Normal",
+      "locked":"Locked",
+      "looped":"In the loop",
+      "todayPrize":"Today's prize",
+      "totalPrize":"Total reward",
+      "uptade":"Update",
+      "refresh":"REFRESH",
+      "yes": "YES",
+      "no": "NO",
+      "ok": "OK",
+      "errorCreated":"Error occurred, then try again later!",
+      "warning":"WARNING",
+      "addressBook":"Address book",
+      "addressSelect":"Select Address",
+      "testmaxthree":"Cannot be added to more than 3 in the test version!",
+      "approve":"Approve",
+      "copiedToClipboard":"Copied to the clipboard"
+    },
+    "contact":{
+      "name":"Contacts",
+      "yet":"You have not added any person yet!",
+      "address":"Address"
+    },
+    "bootstrap":{
+      "name":"Loading Bootstrap"
+    },
+    "chain":{
+      "name":"Chain",
+      "activity": "Chain activity",
+      "chainSync": "Chain Sync.",
+      "number_block": "Number of Blocks",
+      "all_block": "Of all blocks s.",
+      "currency_unit": "Currency unit",
+      "diffuculty": "Difficulty",
+      "status": "Status",
+      "staking": "STAKING",
+      "seePrivate":"See Private Key",
+      "importPrivate":"Import Private Key",
+      "createNewAddress":"Create New Wallet Address",
+      "workWithoutPubkey":"Pubkeysiz çalışıyor!",
+      "stopChain":"Stop the chain!!",
+      "startPubkey":"Run with your pubkey!!!",
+      "start":"Start",
+      "stop":"Stop",
+      "walletAddress":"Wallet Address",
+      "pubKey":"PubKey",
+      "myWallet":"my wallet",
+      "myWallets":"My wallets",
+      "description":"With the Refresh button, you can reach the MCL chain information of your server.Start the chain when the block count is equal to the number of blocks and select Pubkey by selecting Pubkey",
+      "sync":"SYNC",
+      "async":"ASYNC",
+      "copiedToClipboard":"copied to the clipboard",
+      "blockIndexing":"Blocks are indexed.",
+      "description2":"The indexing is currently being done, try again soon.Or start if the chain is not working.",
+      "description3":"Working without pubsex.Stop the chain and run with your pubkey",
+      "desciption4":"Error occurred, then try again again or renew from the upper right corner!",
+      "description5":"Do you want to stop the chain?",
+      "description6":"This final warning, are you sure you want to stop the chain?",
+      "title1":"Private key result",
+      "description7":"Added New Wallet Address with Private Key.",
+      "description8":"Created new wallet.",
+      "logout":"Do you want to logout?"
+
+    },
+    "wallet":{
+      "name":"Wallet",
+      "refresh":"Refresh",
+      "amountInfo":"Amount Info",
+      "amountDeactivate":"Amount To Deactivate",
+      "amountActivate":"Amount To Activate",
+      "open":"Open",
+      "lock":"Lock",
+      "activateApprove":"Do you want to activate the coins?",
+      "deactivateApprove":"Do you want to deactivate coins?",
+      "successful":"Successful",
+      "failed":"Failed, try again later!"
+    },
+    "receivesend":{
+      "name":"Receive-Send",
+      "amountSend":"Send Amount",
+      "amountReceive":"Receive Amount",
+      "pleaseAddr":"Please paste the address here",
+      "amountOfSend":"The amount to be sent",
+      "send":"Submit",
+      "walletAddress":"My wallet address",
+      "copiedToClipboard":"Copied to the clipboard",
+      "receiveAddress":"Receiver Address",
+      "scanQrCode":"Scan a code",
+      "cameraChange":"Change the camera",
+      "cameraResume":"Resume",
+      "cameraPause":"Pause",
+      "sendWarning":"This process has no return.Are you sure you want to send koins?",
+      "unlockAmount":"Fail, try again later!If there is a locked amount then try the lock after removing",
+      "missing":"Fill in the missing locations",
+      "characterNumber":"Enter 34 characters wallet address",
+      "sending":"wait, sending..."
+    },
+    "languages": {
+      "turkish": "Turkish",
+      "english": "English",
+      "arabic": "Arabic"
+    },
+    "home": {
+      "server":"MCL Servers",
+      "yet": "You haven't added the MCL server yet!",
+      "dash": "MCL server related dashboard",
+      "add": "Add",
+      "addServer": "Add Server from (+) sign!",
+      "serverConnect":"Connecting to the server",
+      "serverPassword":"Server Password",
+      "serverConOk":"Connect to server",
+      "serverAdd":"Adding the server",
+      "serverName":"Server Nick Name",
+      "username":"Username (login)",
+      "ipaddress":"IP Address",
+      "portNumber":"Port number",
+      "save":"Save",
+      "warning":"Connection could not be established. Please check the information you entered.",
+      "pubKeyStart":"The chain is not activated, start with your pubkey when synchronization is complete!",
+      "netError":"You don't have an Internet connection",
+      "openNet":"Open your Internet to establish a connection with the server.",
+      "deleteApprove":"Are you sure you want to delete the server named?",
+      "settings":"Settings",
+      "loading":"loading"
+    }
+  }
