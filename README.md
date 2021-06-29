@@ -4,7 +4,7 @@
 ![language](https://img.shields.io/github/languages/top/marmarachain/mcl-mobile)
 ![twitter](https://img.shields.io/twitter/follow/marmarachain?label=marmarachain&style=social)
 
-<img src="https://github.com/AliTATLICI/mcl-mobile/blob/main/mcl/assets/images/home.png?raw=true" width=200 height=429/> <img src="https://github.com/AliTATLICI/mcl-mobile/blob/main/mcl/assets/images/chain.png?raw=true" width=200 height=429/> <img src="https://github.com/AliTATLICI/mcl-mobile/blob/main/mcl/assets/images/wallet.png?raw=true" width=200 height=429/> <img src="https://github.com/AliTATLICI/mcl-mobile/blob/main/mcl/assets/images/receive-send.png?raw=true" width=200 height=429/> <img src="https://github.com/AliTATLICI/mcl-mobile/blob/main/mcl/assets/images/credit.png?raw=true" width=200 height=429/>
+<img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/home.png" width=200 height=429/> <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/chain.png" width=200 height=429/> <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/wallet.png" width=200 height=429/> <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/receive-send.png" width=200 height=429/> <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/credit.png" width=200 height=429/>
 
 ## MCL Mobile
 MCL Mobile is an easy to use GUI application for installing Marmara Chain and conducting credit loops on a Linux platform which can be both in your local machine or located on a remote server. 
