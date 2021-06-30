@@ -312,6 +312,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  flutter_ssh:
+    dependency: "direct main"
+    description:
+      name: flutter_ssh
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -712,13 +719,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  ssh:
-    dependency: "direct main"
-    description:
-      name: ssh
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.7"
   stack_trace:
     dependency: transitive
     description:

@@ -40,7 +40,7 @@ dependencies:
   open_file: ^3.2.1
   path_provider: ^2.0.2
   qr_flutter: ^4.0.0
-  ssh: ^0.0.7
+  flutter_ssh: ^0.0.1
   stacked: ^2.1.4
   stacked_services: ^0.8.6
   syncfusion_flutter_xlsio: ^19.1.66-beta
@@ -48,6 +48,7 @@ dependencies:
   uuid: ^3.0.4
   qr_code_scanner: ^0.5.1
   flutter_easyloading: ^3.0.0
+  
 
 dev_dependencies:
   flutter_test:
