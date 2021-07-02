@@ -15,6 +15,7 @@ abstract class  LocaleKeys {
   static const gender_with_arg = 'gender.with_arg';
   static const gender = 'gender';
   static const project_name = 'project.name';
+  static const project_splash = 'project.splash';
   static const project = 'project';
   static const stats_activate = 'stats.activate';
   static const stats_inloop = 'stats.inloop';

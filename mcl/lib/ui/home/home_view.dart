@@ -123,6 +123,7 @@ class HomeView extends StatelessWidget {
                           ],
                         )
                       : Expanded(
+                          flex: 8,
                           child: PageView.builder(
                               onPageChanged: (int pageIndex) {
                                 model.pageIndex = pageIndex;
@@ -130,9 +131,9 @@ class HomeView extends StatelessWidget {
                               controller: model.pageController,
                               itemCount: sunucularBox.length,
                               itemBuilder: (context, index) => Container(
-                                  margin: EdgeInsets.only(bottom: 24),
+                                  // margin: EdgeInsets.only(bottom: 24),
                                   width: double.infinity,
-                                  height: 190,
+                                  // height: 300,
                                   padding: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
@@ -203,227 +204,244 @@ class HomeView extends StatelessWidget {
                                           ],
                                         ))),
                         ),
-                  DotsIndicator(
-                    dotsCount:
-                        sunucularBox.length == 0 ? 1 : sunucularBox.length,
-                    position: model.currentPosition,
-                    decorator: DotsDecorator(
-                      activeColor: Colors.white,
-                      size: Size(6, 6),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          LocaleKeys.home_server.locale,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                  Expanded(
+                    flex: 1,
+                    child: sunucularBox.length == 0
+                        ? SizedBox()
+                        : DotsIndicator(
+                            dotsCount: sunucularBox.length == 0
+                                ? 1
+                                : sunucularBox.length,
+                            position: model.currentPosition,
+                            decorator: DotsDecorator(
+                              activeColor: Colors.white,
+                              size: Size(6, 6),
+                            ),
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            model.ekliSunucuSayisi == 3
-                                ? ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        behavior: SnackBarBehavior.floating,
-                                        content: Text(
-                                            '${LocaleKeys.common_testmaxthree.tr()}')))
-                                : model.startAddNewTransaction(
-                                    context,
-                                    Chain(
-                                        title: '',
-                                        username: '',
-                                        address: '',
-                                        port: 1),
-                                    -1);
-                          },
-                          child: Icon(
-                            Icons.add_circle_outline,
-                            color: Colors.white,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            LocaleKeys.home_server.locale,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
                           ),
-                        ),
-                      ],
+                          InkWell(
+                            onTap: () {
+                              model.ekliSunucuSayisi == 3
+                                  ? ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          content: Text(
+                                              '${LocaleKeys.common_testmaxthree.tr()}')))
+                                  : model.startAddNewTransaction(
+                                      context,
+                                      Chain(
+                                          title: '',
+                                          username: '',
+                                          address: '',
+                                          port: 1),
+                                      -1);
+                            },
+                            child: Icon(
+                              Icons.add_circle_outline,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 16,
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(
+                  //     bottom: 16,
+                  //   ),
+                  // ),
+
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [MclText.body('fdsf'), MclText.body('fdsf')],
                   // ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.50,
-                    child: sunucularBox.isEmpty
-                        ? Column(
-                            children: <Widget>[
-                              Text(
-                                LocaleKeys.home_addServer.locale,
-                                style: Theme.of(context).textTheme.title,
-                              ),
-                              // SizedBox(
-                              //   height: 20,
-                              // ),
-                              // Container(
-                              //     // height: screenHeightPercentage(context,
-                              //     //     percentage: 0.50),
-                              //     child: Image.asset(
-                              //   'assets/images/waiting.png',
-                              //   fit: BoxFit.cover,
-                              // )),
-                            ],
-                          )
-                        : ListView.separated(
-                            itemCount: sunucularBox.length,
-                            separatorBuilder:
-                                (BuildContext context, int index) => Divider(),
-                            itemBuilder: (context, index) {
-                              final sunucu = sunucularBox.getAt(index) as Chain;
-                              return Slidable(
-                                actionPane: SlidableDrawerActionPane(),
-                                actionExtentRatio: 0.25,
-                                child: Container(
-                                  height: 80,
-                                  color: index == model.currentPosition
-                                      ? Colors.red[200]
-                                      : Colors.transparent,
-                                  child: ListTile(
-                                    onTap: () {
-                                      model.pageIndex = index;
-                                    },
-                                    leading: Container(
-                                        width: 40,
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Color(0xFFF5B300),
-                                        ),
-                                        child: Image.asset(
-                                            'assets/images/logo.png')),
-                                    title: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              sunucu.title,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                            Text(
-                                              '\$123.45',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 6),
-                                          child: Row(
+                  Expanded(
+                    flex: 6,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.30,
+                      child: sunucularBox.isEmpty
+                          ? Column(
+                              children: <Widget>[
+                                Text(
+                                  LocaleKeys.home_addServer.locale,
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                                // SizedBox(
+                                //   height: 20,
+                                // ),
+                                // Container(
+                                //     // height: screenHeightPercentage(context,
+                                //     //     percentage: 0.50),
+                                //     child: Image.asset(
+                                //   'assets/images/waiting.png',
+                                //   fit: BoxFit.cover,
+                                // )),
+                              ],
+                            )
+                          : ListView.separated(
+                              itemCount: sunucularBox.length,
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      Divider(),
+                              itemBuilder: (context, index) {
+                                final sunucu =
+                                    sunucularBox.getAt(index) as Chain;
+                                return Slidable(
+                                  actionPane: SlidableDrawerActionPane(),
+                                  actionExtentRatio: 0.25,
+                                  child: Container(
+                                    height: 80,
+                                    color: index == model.currentPosition
+                                        ? Colors.red[200]
+                                        : Colors.transparent,
+                                    child: ListTile(
+                                      onTap: () {
+                                        model.pageIndex = index;
+                                      },
+                                      leading: Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFFF5B300),
+                                          ),
+                                          child: Image.asset(
+                                              'assets/images/logo.png')),
+                                      title: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                sunucu.username,
+                                                sunucu.title,
                                                 style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 14,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    '13.42%',
-                                                    style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                  // GestureDetector(
-                                                  //   onTap: () {
-                                                  //     print('test');
-                                                  //     model
-                                                  //         .passwordServerEnter(
-                                                  //             context,
-                                                  //             index);
-                                                  //   },
-                                                  //   child: Icon(
-                                                  //     Icons.arrow_right,
-                                                  //     color: Colors.green,
-                                                  //   ),
-                                                  // )
-                                                ],
+                                              Text(
+                                                '\$123.45',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 6),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  sunucu.username,
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      '13.42%',
+                                                      style: TextStyle(
+                                                        color: Colors.green,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    // GestureDetector(
+                                                    //   onTap: () {
+                                                    //     print('test');
+                                                    //     model
+                                                    //         .passwordServerEnter(
+                                                    //             context,
+                                                    //             index);
+                                                    //   },
+                                                    //   child: Icon(
+                                                    //     Icons.arrow_right,
+                                                    //     color: Colors.green,
+                                                    //   ),
+                                                    // )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      subtitle: Text(
+                                        sunucu.address,
+                                      ),
+                                      trailing: IconButton(
+                                          icon: Icon(
+                                            Icons.arrow_right,
+                                            size: 40,
+                                          ),
+                                          color: Theme.of(context).errorColor,
+                                          onPressed: () {
+                                            model.pageIndex = index;
+                                            model.passwordServerEnter(
+                                                context, index);
+                                            // model.runStartServer(index);
+                                          }),
                                     ),
-                                    subtitle: Text(
-                                      sunucu.address,
+                                  ),
+                                  // actions: <Widget>[
+                                  //   IconSlideAction(
+                                  //     caption: 'Adres',
+                                  //     color: Colors.blue,
+                                  //     icon: Icons.archive,
+                                  //     onTap: () =>
+                                  //         sunucularBox.deleteAt(index),
+                                  //   ),
+                                  //   IconSlideAction(
+                                  //     caption: 'Pubkey',
+                                  //     color: Colors.indigo,
+                                  //     icon: Icons.share,
+                                  //     onTap: () =>
+                                  //         sunucularBox.deleteAt(index),
+                                  //   ),
+                                  // ],
+                                  secondaryActions: <Widget>[
+                                    IconSlideAction(
+                                      caption: '${LocaleKeys.common_edit.tr()}',
+                                      color: Colors.black45,
+                                      icon: Icons.edit,
+                                      onTap: () => model.startAddNewTransaction(
+                                          context, sunucu, index),
                                     ),
-                                    trailing: IconButton(
-                                        icon: Icon(
-                                          Icons.arrow_right,
-                                          size: 40,
-                                        ),
-                                        color: Theme.of(context).errorColor,
-                                        onPressed: () {
-                                          model.pageIndex = index;
-                                          model.passwordServerEnter(
-                                              context, index);
-                                          // model.runStartServer(index);
-                                        }),
-                                  ),
-                                ),
-                                // actions: <Widget>[
-                                //   IconSlideAction(
-                                //     caption: 'Adres',
-                                //     color: Colors.blue,
-                                //     icon: Icons.archive,
-                                //     onTap: () =>
-                                //         sunucularBox.deleteAt(index),
-                                //   ),
-                                //   IconSlideAction(
-                                //     caption: 'Pubkey',
-                                //     color: Colors.indigo,
-                                //     icon: Icons.share,
-                                //     onTap: () =>
-                                //         sunucularBox.deleteAt(index),
-                                //   ),
-                                // ],
-                                secondaryActions: <Widget>[
-                                  IconSlideAction(
-                                    caption: '${LocaleKeys.common_edit.tr()}',
-                                    color: Colors.black45,
-                                    icon: Icons.edit,
-                                    onTap: () => model.startAddNewTransaction(
-                                        context, sunucu, index),
-                                  ),
-                                  IconSlideAction(
-                                    caption: '${LocaleKeys.common_delete.tr()}',
-                                    color: Colors.red,
-                                    icon: Icons.delete,
-                                    onTap: () => model.deleteServer(index),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
+                                    IconSlideAction(
+                                      caption:
+                                          '${LocaleKeys.common_delete.tr()}',
+                                      color: Colors.red,
+                                      icon: Icons.delete,
+                                      onTap: () => model.deleteServer(index),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                    ),
                   )
                 ],
               ),

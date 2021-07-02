@@ -26,7 +26,8 @@
       }
     },
     "project":{
-      "name":"MCL Mobile"
+      "name":"MCL Mobile",
+      "splash":"Marmara Credit Loops"
     },
     "stats":{
       "activate":"ACTIVATED",

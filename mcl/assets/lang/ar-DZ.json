@@ -25,6 +25,10 @@
         "female": "{} مرحبا بك يا فتاة"
       }
     },
+    "project":{
+      "name":"MCL Mobile",
+      "splash":"Marmara Credit Loops"
+    },
     "stats":{
       "activate":"مفعل",
       "inloop":"في الحلقات",

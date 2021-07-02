@@ -27,7 +27,8 @@
       }
     },
     "project":{
-      "name":"MCL Mobil"
+      "name":"MCL Mobil",
+      "splash":"Marmara Kredi Döngüleri"
     },
     "stats":{
       "activate":"AKTİF",

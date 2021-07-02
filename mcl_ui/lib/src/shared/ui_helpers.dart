@@ -23,3 +23,8 @@ double screenHeightPercentage(BuildContext context, {double percentage = 1}) =>
 
 double screenWidthPercentage(BuildContext context, {double percentage = 1}) =>
     screenWidth(context) * percentage;
+
+// Duratians
+Duration get durationLow => Duration(milliseconds: 500);
+Duration get durationNormal => Duration(seconds: 1);
+Duration get durationSlow => Duration(seconds: 2);
