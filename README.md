@@ -7,13 +7,14 @@
 <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/home.png" width=200 height=429/> <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/chain.png" width=200 height=429/> <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/wallet.png" width=200 height=429/> <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/receive-send.png" width=200 height=429/> <img src="https://raw.githubusercontent.com/marmarachain/mcl-mobile/master/mcl/assets/images/credit.png" width=200 height=429/>
 
 ## MCL Mobile
-MCL Mobile is an easy to use GUI application for installing Marmara Chain and conducting credit loops on a Linux platform which can be both in your local machine or located on a remote server. 
-The developed platform establishes a connection to a Linux platform through SSH technology.
+MCL Mobile is an easy to use mobile application for installing Marmara Chain and conducting credit loops on a remote platform which can be a local machine or a server. 
+The developed app establishes a connection to a remote platform through SSH technology.
+The remote platform is Linux based OS.
 
 For more detailed information on creating Marmara credit loops, kindly refer to [Making Marmara Credit Loops](https://github.com/marmarachain/marmara/wiki/How-to-make-Marmara-Credit-Loops?). 
 
 ## Features
-- Enables installing Marmara Chain on a remote server or a local machine,
+- Enables installing Marmara Chain on a remote server,
 - Send/receive MCL transactions,
 - Enables making Marmara Credit Loops and managing them on a single interface without having to know the commands.
 - Provides easy listing and filtering of Marmara Credit Loops.
@@ -80,7 +81,7 @@ Contributions to the development of this software in any way are very welcomed a
 
 Important Notice
 ---
-MCL Mobile is experimental and a work-in-progress. Use at your own risk. 
+MCL Mobile is experimental and a work-in-progress. Use at your own risk!
  
 License
 ---
