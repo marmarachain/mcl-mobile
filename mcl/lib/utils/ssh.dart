@@ -27,6 +27,7 @@ class SSHClient {
   Callback? shellCallback;
   Callback? uploadCallback;
   Callback? downloadCallback;
+  String? pathMclCli;
 
   SSHClient({
     required this.host,

@@ -49,6 +49,7 @@ class WalletView extends StatelessWidget {
                             labelText:
                                 '${LocaleKeys.wallet_amountActivate.tr()}',
                             labelStyle: TextStyle(color: Colors.white24)),
+                        focusNode: viewmodel.cuzdanAktiflemeFocusNode,
                       ),
                     ),
                     ElevatedButton(
@@ -56,6 +57,7 @@ class WalletView extends StatelessWidget {
                           primary: Theme.of(context).focusColor,
                         ),
                         onPressed: () {
+                          FocusScope.of(context).unfocus();
                           viewmodel.cuzdanDegerAktifleme();
                         },
                         child: Text('${LocaleKeys.wallet_lock.tr()}'))
@@ -87,6 +89,7 @@ class WalletView extends StatelessWidget {
                           labelText:
                               '${LocaleKeys.wallet_amountDeactivate.tr()}',
                         ),
+                        focusNode: viewmodel.cuzdanDeaktiflemeFocusNode,
                       ),
                     ),
                     ElevatedButton(
@@ -94,6 +97,7 @@ class WalletView extends StatelessWidget {
                           primary: Theme.of(context).focusColor,
                         ),
                         onPressed: () {
+                          FocusScope.of(context).unfocus();
                           viewmodel.cuzdanDegerDeaktifleme();
                         },
                         child: Text('${LocaleKeys.wallet_open.tr()}')),
@@ -208,4 +212,11 @@ class WalletView extends StatelessWidget {
       viewModelBuilder: () => MclDetailViewModel(),
     );
   }
+}
+
+@override
+void dispose(MclDetailViewModel model) {
+  model.cuzdanAktiflemeFocusNode.dispose();
+  model.cuzdanDeaktiflemeFocusNode.dispose();
+  // super.dispose();
 }

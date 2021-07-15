@@ -16,9 +16,11 @@ class StartUpViewModel extends BaseViewModel {
     _navigationService.replaceWith(Routes.homeView);
   }
 
-  void _changeFirstInit() {
+  Future<void> _changeFirstInit() async {
     isFirstInit = !isFirstInit;
     notifyListeners();
+    await Future.delayed(Duration(seconds: 2));
+    runStartupLogic();
   }
 
   Future<void> startAnimationOnView() async {

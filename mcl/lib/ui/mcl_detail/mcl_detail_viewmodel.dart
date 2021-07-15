@@ -50,6 +50,8 @@ class MclDetailViewModel extends BaseViewModel {
 
   TextEditingController cuzdanDeaktiflemeController = TextEditingController();
   TextEditingController cuzdanAktiflemeController = TextEditingController();
+  final cuzdanAktiflemeFocusNode = FocusNode();
+  final cuzdanDeaktiflemeFocusNode = FocusNode();
 
   int _tabIndex = 0;
   int get tabIndex => _tabIndex;
@@ -204,15 +206,20 @@ class MclDetailViewModel extends BaseViewModel {
 
   Future<void> _refreshIssuerForm(int txTimeDiffMinute) async {
     try {
+      await EasyLoading.show(
+        status: '${LocaleKeys.home_loading.locale}...',
+        maskType: EasyLoadingMaskType.black,
+      );
       await onClickIssuerRefresh(txTimeDiffMinute);
+      await EasyLoading.dismiss();
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
     }
     setBusy(false);
   }
 
-  Future<void> issuerCreditConfirmationDialog(
-      String message, String reveicePubKey, String txId) async {
+  Future<void> issuerCreditConfirmationDialog(String message,
+      String reveicePubKey, String txId, BuildContext ctx) async {
     setBusy(true);
 
     // notifyListeners();
@@ -227,8 +234,30 @@ class MclDetailViewModel extends BaseViewModel {
       String sendDogrulama =
           await _sshService.krediIstegiOnaylama(reveicePubKey, txId);
       if (sendDogrulama.length == 64) {
-        _dialogService.showDialog(
-            title: 'Deaktifle Sonucu', description: 'Başarılı');
+        showDialog(
+            barrierDismissible: false,
+            context: ctx,
+            builder: (_) => AlertDialog(
+                  title: Text('${LocaleKeys.wallet_successful.locale}'),
+                  content: SelectableText(sendDogrulama),
+                  actions: [
+                    IconButton(
+                        icon: Icon(Icons.copy),
+                        onPressed: () {
+                          Clipboard.setData(
+                              ClipboardData(text: "$sendDogrulama"));
+                          ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              content: Text(
+                                  '${LocaleKeys.common_copiedToClipboard.locale}')));
+                        }),
+                    ElevatedButton(
+                        onPressed: () {
+                          _navigationService.back();
+                        },
+                        child: Text('Ok'))
+                  ],
+                ));
       } else {
         _dialogService.showDialog(
             title: 'Deaktifle Sonucu',
@@ -252,6 +281,8 @@ class MclDetailViewModel extends BaseViewModel {
       result =
           await _sshService.onClickCreditIssuerRefresh(afterDate: afterDate);
       if (result == '') {
+        issuerLoop = [];
+        notifyListeners();
         _dialogService.showDialog(
             title: '${LocaleKeys.credit_issuer_list_first.locale}',
             description: '${LocaleKeys.credit_issuer_maturesNoRequest.locale}');
@@ -276,6 +307,8 @@ class MclDetailViewModel extends BaseViewModel {
         });
         notifyListeners();
       } else {
+        issuerLoop = [];
+        notifyListeners();
         _dialogService.showDialog(
             title: '${LocaleKeys.credit_issuer_list_first.locale}',
             description: '${LocaleKeys.credit_issuer_maturesNoRequest.locale}');
@@ -292,6 +325,7 @@ class MclDetailViewModel extends BaseViewModel {
   late String bearerName = '';
   final bearerPubKeyController = TextEditingController();
   final bearerAmountOrBatonController = TextEditingController();
+  final bearerAmountOrBatonFocusNode = FocusNode();
   DateTime? selectedDate;
 
   bool _switchState = false;
@@ -732,9 +766,14 @@ class MclDetailViewModel extends BaseViewModel {
           behavior: SnackBarBehavior.floating,
           content: Text('${LocaleKeys.chain_startPubkey.locale}')));
     } else {
-      setBusy(true);
+      // setBusy(true);
+      await EasyLoading.show(
+        status: '${LocaleKeys.home_loading.locale}...',
+        maskType: EasyLoadingMaskType.black,
+      );
       await _sshService.marmaraInfoBlocChain();
-      setBusy(false);
+      await EasyLoading.dismiss();
+      // setBusy(false);
       notifyListeners();
     }
   }
@@ -743,7 +782,7 @@ class MclDetailViewModel extends BaseViewModel {
     if (cuzdanAktiflemeController.text.isEmpty) {
       return;
     }
-    setBusy(true);
+    // setBusy(true);
 
     // notifyListeners();
     var onay = await _dialogService.showConfirmationDialog(
@@ -753,8 +792,13 @@ class MclDetailViewModel extends BaseViewModel {
         confirmationTitle: '${LocaleKeys.common_yes.locale}');
     print(onay!.confirmed.toString());
     if (onay.confirmed) {
+      await EasyLoading.show(
+        status: '${LocaleKeys.home_loading.locale}...',
+        maskType: EasyLoadingMaskType.black,
+      );
       String sendDogrulama = await _sshService
           .cuzdanAktifleme(int.parse(cuzdanAktiflemeController.text));
+      await EasyLoading.dismiss();
       if (sendDogrulama.length == 64) {
         _dialogService.showDialog(
             title: '${LocaleKeys.wallet_amountActivate.locale}',
@@ -765,7 +809,7 @@ class MclDetailViewModel extends BaseViewModel {
             description: '${LocaleKeys.wallet_failed.locale}');
       }
     }
-    setBusy(false);
+    // setBusy(false);
   }
 
   Future<void> cuzdanDegerDeaktifleme() async {
@@ -775,13 +819,10 @@ class MclDetailViewModel extends BaseViewModel {
     // if (int.parse(cuzdanDeaktiflemeController.text) > 0) {
     //   return;
     // }
-    setBusy(true);
-    print(int.parse(cuzdanDeaktiflemeController.text));
-    var sendtx = await _sshService
-        .cuzdanDeaktifleme(int.parse(cuzdanDeaktiflemeController.text));
-    print(sendtx);
-    setBusy(false);
-    // notifyListeners();
+    // setBusy(true);
+
+    // setBusy(false);
+
     var onay = await _dialogService.showConfirmationDialog(
         title: '${LocaleKeys.wallet_amountDeactivate.locale}',
         description: '${LocaleKeys.wallet_deactivateApprove.locale}',
@@ -789,8 +830,15 @@ class MclDetailViewModel extends BaseViewModel {
         confirmationTitle: '${LocaleKeys.common_yes.locale}');
     print(onay!.confirmed.toString());
     if (onay.confirmed) {
-      bool sendDogrulama = await _sshService.cuzdanDeaktiflemeOnayi(sendtx);
-      if (sendDogrulama) {
+      await EasyLoading.show(
+        status: '${LocaleKeys.home_loading.locale}...',
+        maskType: EasyLoadingMaskType.black,
+      );
+      var sendDogrulama = await _sshService
+          .cuzdanDeaktifleme(int.parse(cuzdanDeaktiflemeController.text));
+      await EasyLoading.dismiss();
+      // bool sendDogrulama = await _sshService.cuzdanDeaktiflemeOnayi(sendtx);
+      if (sendDogrulama.length == 64) {
         _dialogService.showDialog(
             title: '${LocaleKeys.wallet_amountDeactivate.locale}',
             description: '${LocaleKeys.wallet_successful.locale}');
@@ -930,14 +978,6 @@ class MclDetailViewModel extends BaseViewModel {
       print('Error: ${e.code}\nError Message: ${e.message}');
     }
     setBusy(false);
-  }
-
-  void denemebaglanti() async {
-    var result = await client!.connect();
-    print("BAGLANTI KONTROL");
-    print(result);
-    var komut = await client!.execute(commands['getaddressesbyaccount']);
-    print(komut);
   }
 
   void serverServisiBaglantisi() {

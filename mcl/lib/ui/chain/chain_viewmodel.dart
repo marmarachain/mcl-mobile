@@ -89,7 +89,12 @@ class ChainViewModel extends BaseViewModel {
 
   Future<void> stateBlockChain() async {
     setBusy(true);
+    await EasyLoading.show(
+      status: '${LocaleKeys.home_loading.locale}...',
+      maskType: EasyLoadingMaskType.black,
+    );
     var infoBlock = await _sshService.getInfoBlockChain();
+    await EasyLoading.dismiss();
     print(infoBlock);
     if (infoBlock == "loading block index") {
       _dialogService.showDialog(
@@ -122,7 +127,12 @@ class ChainViewModel extends BaseViewModel {
       }
       //TODO dateWallet Hive ile cekilecek
       if (isAddPriveKey || dataWallet.length == 0) {
+        await EasyLoading.show(
+          status: '${LocaleKeys.home_loading.locale}...',
+          maskType: EasyLoadingMaskType.black,
+        );
         result = await _sshService.chainViewModelStart();
+        await EasyLoading.dismiss();
         if (result == '') {
           _dialogService.showDialog(
               title: '${LocaleKeys.common_errorCreated.locale}');

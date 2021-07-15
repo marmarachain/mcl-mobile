@@ -94,7 +94,7 @@ class _NewTransactionState extends State<NewTransaction> {
               TextField(
                 decoration: InputDecoration(
                     labelText: '${LocaleKeys.home_portNumber.locale}'),
-                controller: _portController,
+                controller: _portController..text = '22',
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
                 // onChanged: (val) => amountInput = val,

@@ -148,9 +148,9 @@ class CreditView extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         )
                       : TabBarView(children: [
-                          tabIssuer(model),
+                          tabIssuer(model, context),
                           tabBearer(model, context),
-                          tabEndorser(model),
+                          tabEndorser(model, context),
                           // Center(
                           //   child: Text('Döngü Bilgisi'),
                           // ),
@@ -336,7 +336,8 @@ class CreditView extends StatelessWidget {
         ),
       );
 
-  SingleChildScrollView tabEndorser(MclDetailViewModel model) {
+  SingleChildScrollView tabEndorser(
+      MclDetailViewModel model, BuildContext ctx) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -478,7 +479,8 @@ class CreditView extends StatelessWidget {
                                           model.issuerCreditConfirmationDialog(
                                               "TXID: ${item.txid!} \nAMOUNT: ${item.amount}\nMATURES: ${item.matures}\nRECEIVER PUBKEY: ${item.receivepk} \n",
                                               item.receivepk!,
-                                              item.txid!);
+                                              item.txid!,
+                                              ctx);
                                         },
                                       )
                                     ],
@@ -501,7 +503,7 @@ class CreditView extends StatelessWidget {
     );
   }
 
-  Widget tabIssuer(MclDetailViewModel model) {
+  Widget tabIssuer(MclDetailViewModel model, BuildContext ctx) {
     return model.issuerLoop.length == 0
         ? Padding(
             padding: const EdgeInsets.all(8.0),
@@ -572,7 +574,8 @@ class CreditView extends StatelessWidget {
                                       model.issuerCreditConfirmationDialog(
                                           "TXID: ${item.txid!} \nAMOUNT: ${item.amount}\nMATURES: ${item.matures}\nRECEIVER PUBKEY: ${item.receivepk} $rehberKaydi\n",
                                           item.receivepk!,
-                                          item.txid!);
+                                          item.txid!,
+                                          ctx);
                                     },
                                   )
                                 ],
@@ -796,17 +799,21 @@ class CreditView extends StatelessWidget {
                       ],
                     ),
                     TextField(
-                      decoration: InputDecoration(
-                          labelText: !model.switchState
-                              ? '${LocaleKeys.common_amount.tr()}'
-                              : 'Baton Txid'),
-                      controller: model.bearerAmountOrBatonController,
-                      keyboardType: !model.switchState
-                          ? TextInputType.number
-                          : TextInputType.text,
-                      onSubmitted: (_) => model.submitDataRequestCredi(context),
-                      // onChanged: (val) => amountInput = val,
-                    ),
+                        decoration: InputDecoration(
+                            labelText: !model.switchState
+                                ? '${LocaleKeys.common_amount.tr()}'
+                                : 'Baton Txid'),
+                        controller: model.bearerAmountOrBatonController,
+                        keyboardType: !model.switchState
+                            ? TextInputType.number
+                            : TextInputType.text,
+                        focusNode: model.bearerAmountOrBatonFocusNode,
+                        onSubmitted: (_) {
+                          FocusScope.of(context).unfocus();
+                          model.submitDataRequestCredi(context);
+                        }
+                        // onChanged: (val) => amountInput = val,
+                        ),
                     !model.switchState
                         ? Container(
                             height: 70,
@@ -845,6 +852,7 @@ class CreditView extends StatelessWidget {
                             textStyle: TextStyle(color: Colors.black)),
                         onPressed: () {
                           model.submitDataRequestCredi(context);
+                          FocusScope.of(context).unfocus();
                         },
                       ),
                     ),
@@ -862,5 +870,6 @@ class CreditView extends StatelessWidget {
 @override
 void dispose(MclDetailViewModel model) {
   model.controller?.dispose();
+  model.bearerAmountOrBatonFocusNode.dispose();
   // super.dispose();
 }

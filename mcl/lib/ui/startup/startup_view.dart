@@ -15,8 +15,8 @@ class StartUpView extends StatelessWidget {
     return ViewModelBuilder<StartUpViewModel>.reactive(
       onModelReady: (model) =>
           SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-        // model.runStartupLogic();
         model.startAnimationOnView();
+        // model.runStartupLogic();
       }),
       builder: (context, viewModel, child) =>
           buildScaffoldBody(context, viewModel),
