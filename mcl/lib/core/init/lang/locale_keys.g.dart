@@ -2,18 +2,6 @@
 
 abstract class  LocaleKeys {
   static const language = 'language';
-  static const title = 'title';
-  static const welcome = 'welcome';
-  static const msg = 'msg';
-  static const clickMe = 'clickMe';
-  static const profile_reset_password_label = 'profile.reset_password.label';
-  static const profile_reset_password_username = 'profile.reset_password.username';
-  static const profile_reset_password_password = 'profile.reset_password.password';
-  static const profile_reset_password = 'profile.reset_password';
-  static const profile = 'profile';
-  static const clicked = 'clicked';
-  static const gender_with_arg = 'gender.with_arg';
-  static const gender = 'gender';
   static const project_name = 'project.name';
   static const project_splash = 'project.splash';
   static const project = 'project';
@@ -134,6 +122,10 @@ abstract class  LocaleKeys {
   static const chain_description7 = 'chain.description7';
   static const chain_description8 = 'chain.description8';
   static const chain_logout = 'chain.logout';
+  static const chain_wordGroup = 'chain.wordGroup';
+  static const chain_wordGroupVerification = 'chain.wordGroupVerification';
+  static const chain_copyWalletInfo = 'chain.copyWalletInfo';
+  static const chain_optional = 'chain.optional';
   static const chain = 'chain';
   static const wallet_name = 'wallet.name';
   static const wallet_refresh = 'wallet.refresh';

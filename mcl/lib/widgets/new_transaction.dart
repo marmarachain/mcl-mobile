@@ -51,6 +51,8 @@ class _NewTransactionState extends State<NewTransaction> {
       _usernameController.text = widget.server.username;
       _addressController.text = widget.server.address;
       _portController.text = widget.server.port.toString();
+    } else {
+      _portController.text = '22';
     }
 
     return SingleChildScrollView(
@@ -94,7 +96,7 @@ class _NewTransactionState extends State<NewTransaction> {
               TextField(
                 decoration: InputDecoration(
                     labelText: '${LocaleKeys.home_portNumber.locale}'),
-                controller: _portController..text = '22',
+                controller: _portController,
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
                 // onChanged: (val) => amountInput = val,

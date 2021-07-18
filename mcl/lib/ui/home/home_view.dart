@@ -123,7 +123,7 @@ class HomeView extends StatelessWidget {
                           ],
                         )
                       : Expanded(
-                          flex: 8,
+                          flex: 5,
                           child: PageView.builder(
                               onPageChanged: (int pageIndex) {
                                 model.pageIndex = pageIndex;

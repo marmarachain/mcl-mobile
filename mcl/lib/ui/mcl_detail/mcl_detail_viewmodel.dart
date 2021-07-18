@@ -761,20 +761,25 @@ class MclDetailViewModel extends BaseViewModel {
   }
 
   Future<void> myWalletNormalAmountButton(BuildContext ctx) async {
-    if (_sshService.pubKey == '') {
-      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text('${LocaleKeys.chain_startPubkey.locale}')));
-    } else {
-      // setBusy(true);
-      await EasyLoading.show(
-        status: '${LocaleKeys.home_loading.locale}...',
-        maskType: EasyLoadingMaskType.black,
-      );
-      await _sshService.marmaraInfoBlocChain();
+    try {
+      if (_sshService.pubKey == '') {
+        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text('${LocaleKeys.chain_startPubkey.locale}')));
+      } else {
+        // setBusy(true);
+        await EasyLoading.show(
+          status: '${LocaleKeys.home_loading.locale}...',
+          maskType: EasyLoadingMaskType.black,
+        );
+        await _sshService.marmaraInfoBlocChain();
+        await EasyLoading.dismiss();
+        // setBusy(false);
+        notifyListeners();
+      }
+    } catch (e) {
+      print(e);
       await EasyLoading.dismiss();
-      // setBusy(false);
-      notifyListeners();
     }
   }
 

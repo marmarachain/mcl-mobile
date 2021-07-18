@@ -1,30 +1,4 @@
 {   "language": "AR",
-    "title": "السلام",
-    "msg":"السلام عليكم يا {} في عالم {}",
-    "clickMe":"إضغط هنا",
-    "profile": {
-      "reset_password": {
-        "label":  "اعادة تعين كلمة السر",
-        "username": "المستخدم",
-        "password": "كلمة السر"
-      }
-    },
-      "clicked": {
-      "zero": "{} نقرة!",
-      "one": "{} نقرة!",
-      "two":"{} نقرات!",
-      "few":"{} نقرات!",
-      "many":"{} نقرة!",
-      "other": "{} نقرة!"
-    },
-    "gender":{
-      "male": " مرحبا يا رجل",
-      "female": " مرحبا بك يا فتاة",
-      "with_arg":{
-        "male": "{} مرحبا يا رجل",
-        "female": "{} مرحبا بك يا فتاة"
-      }
-    },
     "project":{
       "name":"MCL Mobile",
       "splash":"Marmara Credit Loops"
@@ -156,7 +130,11 @@
       "title1":"النتيجة الرئيسية الخاصة",
       "description7":"تمت إضافة عنوان محفظة جديد مع مفتاح خاص.",
       "description8":"إنشاء محفظة جديدة.",
-      "logout":"هل ترغب بالخروج"
+      "logout":"هل ترغب بالخروج",
+      "wordGroup":"أدخل 12 كلمة مع مسافات بينها",
+      "wordGroupVerification":"أدخل كلمات مرة أخرى",
+      "copyWalletInfo":"نسخ محفظة المعلومات",
+      "optional":"اختياري"
     },
     "wallet":{
       "name":"محفظة",

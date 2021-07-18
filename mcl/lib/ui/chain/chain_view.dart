@@ -325,12 +325,28 @@ class ChainView extends StatelessWidget {
             children: [
               Text('${LocaleKeys.chain_createNewAddress.locale}'),
               Divider(height: 2, thickness: 2),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     // model.switchStateEndorser
+              //     //     ? LocaleText(
+              //     //         value:
+              //     //             LocaleKeys.credit_endorser_endorsement_request_list)
+              //     //     : LocaleText(
+              //     //         value: LocaleKeys.credit_endorser_bearer_loops),
+              //     Switch(
+              //         value: viewModel.switchWordGroup,
+              //         onChanged: (bool deger) {
+              //           viewModel.switchWordGroup = deger;
+              //         })
+              //   ],
+              // ),
               TextField(
                   keyboardType: TextInputType.multiline,
                   minLines: 1,
                   maxLines: 3,
                   decoration: InputDecoration(
-                    labelText: 'Kelime Grubu',
+                    labelText: '${LocaleKeys.chain_wordGroup.locale}',
                   ),
                   controller: viewModel.workGroupController
                   // onSubmitted: (_) => _submitData(),
@@ -343,11 +359,17 @@ class ChainView extends StatelessWidget {
                   minLines: 1,
                   maxLines: 3,
                   decoration: InputDecoration(
-                    labelText: 'Kelime Grubu Doğrulama',
+                    labelText:
+                        '${LocaleKeys.chain_wordGroupVerification.locale}',
                   ),
                   controller: viewModel.workGroupControllerEqual
                   // onSubmitted: (_) => _submitData(),
                   ),
+
+              Align(
+                child: Text('*${LocaleKeys.chain_optional.locale}'),
+                alignment: Alignment.topRight,
+              ),
               ElevatedButton(
                 child: Text('${LocaleKeys.chain_createNewAddress.locale}'),
                 style: ElevatedButton.styleFrom(
@@ -404,7 +426,7 @@ class ChainView extends StatelessWidget {
                 ],
               ),
               OutlinedButton(
-                child: Text('Cüzdan Bilgilerinin Tamamını Kopyala'),
+                child: Text('${LocaleKeys.chain_copyWalletInfo.locale}'),
                 // style: ElevatedButton.styleFrom(
                 //     primary: Theme.of(context).primaryColor,
                 //     textStyle: TextStyle(color: Colors.black)),

@@ -71,6 +71,13 @@ class ChainViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  bool _switchWordGroup = false;
+  bool get switchWordGroup => _switchWordGroup;
+  set switchWordGroup(bool value) {
+    _switchWordGroup = value;
+    notifyListeners();
+  }
+
   Future<void> chainLogout() async {
     var onay = await _dialogService.showConfirmationDialog(
         title: '${LocaleKeys.common_warning.locale}',
@@ -108,7 +115,7 @@ class ChainViewModel extends BaseViewModel {
   }
 
   Future<void> onClickCmd({bool isAddPriveKey = false}) async {
-    setBusy(true);
+    // setBusy(true);
 
     String? result;
     try {
@@ -117,8 +124,27 @@ class ChainViewModel extends BaseViewModel {
       if (_sshService.pubKey == '') {
         pubKeyIs = false;
         // getınfo sonrası '' alinirsa START VERİLECEK
-        if (_sshService.chainWork == false) {
+        if (_sshService.chainWork == false || _sshService.pubKey == '') {
           await onClickMclStart(firstStart: true);
+
+          await EasyLoading.show(
+            status: '${LocaleKeys.home_loading.locale}...',
+            maskType: EasyLoadingMaskType.black,
+          );
+          await Future.delayed(Duration(seconds: 3));
+          var chainStartControl = "loading block index";
+          while (chainStartControl == "loading block index") {
+            var infoBlock = await _sshService.getInfoBlockChain();
+            chainStartControl = infoBlock;
+            print(infoBlock);
+            await Future.delayed(Duration(seconds: 4));
+            if (infoBlock == "loading block index") {
+            } else {
+              await EasyLoading.dismiss();
+              stateBlockChain();
+            }
+          }
+
           _sshService.chainWork = true;
           await Future.delayed(Duration(seconds: 5));
         }
@@ -179,7 +205,7 @@ class ChainViewModel extends BaseViewModel {
       _dialogService.showDialog(
           title: '${LocaleKeys.chain_desciption4.locale}');
     }
-    setBusy(false);
+    // setBusy(false);
   }
 
   Future<void> onClickChainStop() async {
@@ -380,6 +406,7 @@ class ChainViewModel extends BaseViewModel {
           callback: (dynamic res) {
             cmdLineResult = '';
             cmdLineResult += res;
+            print(res);
             notifyListeners();
           });
 
@@ -388,12 +415,29 @@ class ChainViewModel extends BaseViewModel {
             .writeToShell("echo hello > world\n"));
         if (firstStart || character == '') {
           print(await _sshService.currentServer.writeToShell(
-              "~/komodo/src/komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=149.202.158.145 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 &\n"));
+              "${_sshService.currentServer.pathMclCli}komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=149.202.158.145 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 &\n"));
         } else {
           pubKeyIs = true;
           _sshService.pubKey = character;
           print(await _sshService.currentServer.writeToShell(
-              "~/komodo/src/komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=46.4.238.65 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 -gen -genproclimit=0 -pubkey=$character &\n"));
+              "${_sshService.currentServer.pathMclCli}komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=46.4.238.65 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 -gen -genproclimit=0 -pubkey=$character &\n"));
+        }
+
+        await EasyLoading.show(
+          status: '${LocaleKeys.home_loading.locale}...',
+          maskType: EasyLoadingMaskType.black,
+        );
+        await Future.delayed(Duration(seconds: 3));
+        var chainStartControl = "loading block index";
+        while (chainStartControl == "loading block index") {
+          var infoBlock = await _sshService.getInfoBlockChain();
+          chainStartControl = infoBlock;
+          print(infoBlock);
+          await Future.delayed(Duration(seconds: 4));
+          if (infoBlock == "loading block index") {
+          } else {
+            await EasyLoading.dismiss();
+          }
         }
 
         print(await _sshService.currentServer.writeToShell("cat world\n"));
