@@ -158,7 +158,7 @@ class ChainView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                    "${item.id}. ${LocaleKeys.chain_myWallet.locale}"),
+                                    "${item.id + 1}. ${LocaleKeys.chain_myWallet.locale}"),
                                 Row(
                                   children: [
                                     // item.expandedValue ==
@@ -169,14 +169,19 @@ class ChainView extends StatelessWidget {
                                     //       )
                                     //     : SizedBox(),
                                     IconButton(
-                                        icon:
-                                            Icon(Icons.account_balance_wallet),
+                                        icon: Icon(
+                                          Icons.account_balance_wallet,
+                                          color: Colors.black54,
+                                        ),
                                         onPressed: () => model.copiedToClipboard(
                                             context,
                                             item.expandedValue,
                                             '${LocaleKeys.chain_walletAddress.locale}')),
                                     IconButton(
-                                        icon: Icon(Icons.vpn_key),
+                                        icon: Icon(
+                                          Icons.vpn_key,
+                                          color: Colors.black54,
+                                        ),
                                         onPressed: () => model.copiedToClipboard(
                                             context,
                                             item.headerValue,

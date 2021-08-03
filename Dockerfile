@@ -1,11 +1,13 @@
 FROM ubuntu:18.04
 
+ARG MCL_PASSWORD
+
 RUN apt-get update
 
 RUN apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 
-RUN echo 'root:marmara' |chpasswd
+RUN echo 'root:${MCL_PASSWORD}' |chpasswd
 
 RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config

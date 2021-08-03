@@ -17,26 +17,23 @@ class NewPerson extends StatefulWidget {
 }
 
 class _NewPersonState extends State<NewPerson> {
-  final _titleController = TextEditingController();
-  final _amountController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _walletAddressController = TextEditingController();
   final _pubKeyController = TextEditingController();
 
   // @override
   // void setState(fn) {
   //   // TODO: implement setState
-  //   _titleController.text = 'test adi';
+  //   _nameController.text = 'test adi';
   //   super.setState(fn);
   // }
 
   void _submitData() {
-    print(_titleController.text);
-    print(_amountController.text);
-    print(_pubKeyController.text);
-    if (_amountController.text.isEmpty) {
+    if (_walletAddressController.text.isEmpty) {
       return;
     }
-    final enteredTitle = _titleController.text;
-    final walletAddressTitle = _amountController.text;
+    final enteredTitle = _nameController.text;
+    final walletAddressTitle = _walletAddressController.text;
     final pubKeyTitle = _pubKeyController.text;
 
     if (enteredTitle.isEmpty ||
@@ -58,9 +55,23 @@ class _NewPersonState extends State<NewPerson> {
   @override
   Widget build(BuildContext context) {
     if (widget.kisi.isim != '') {
-      _titleController.text = widget.kisi.isim;
-      _amountController.text = widget.kisi.cuzdanAdresi;
-      _pubKeyController.text = widget.kisi.pubKey;
+      _nameController.text =
+          _nameController.text == "" ? widget.kisi.isim : _nameController.text;
+      _nameController
+        ..selection =
+            TextSelection.collapsed(offset: _nameController.text.length);
+      _walletAddressController.text = _walletAddressController.text == ""
+          ? widget.kisi.cuzdanAdresi
+          : _walletAddressController.text;
+      _walletAddressController
+        ..selection = TextSelection.collapsed(
+            offset: _walletAddressController.text.length);
+      _pubKeyController.text = _pubKeyController.text == ""
+          ? widget.kisi.pubKey
+          : _pubKeyController.text;
+      _pubKeyController
+        ..selection =
+            TextSelection.collapsed(offset: _pubKeyController.text.length);
     }
 
     return SingleChildScrollView(
@@ -76,7 +87,8 @@ class _NewPersonState extends State<NewPerson> {
                     labelText:
                         '${LocaleKeys.credit_endorser_filter_name.locale}'),
 
-                controller: _titleController,
+                controller: _nameController,
+                textInputAction: TextInputAction.next,
                 onSubmitted: (_) => _submitData(),
                 // onChanged: (val) {
                 //   titleInput = val;
@@ -85,13 +97,15 @@ class _NewPersonState extends State<NewPerson> {
               TextField(
                 decoration: InputDecoration(
                     labelText: '${LocaleKeys.chain_walletAddress.locale}'),
-                controller: _amountController,
+                controller: _walletAddressController,
+                textInputAction: TextInputAction.next,
                 onSubmitted: (_) => _submitData(),
                 // onChanged: (val) => amountInput = val,
               ),
               TextField(
                 decoration: InputDecoration(labelText: 'Pubkey'),
                 controller: _pubKeyController,
+                textInputAction: TextInputAction.done,
                 onSubmitted: (_) => _submitData(),
                 keyboardType: TextInputType.multiline,
                 minLines: 2,

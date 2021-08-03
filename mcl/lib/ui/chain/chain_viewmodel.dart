@@ -170,23 +170,26 @@ class ChainViewModel extends BaseViewModel {
           // await _sshService.getInfoBlockChain();
 
           dataWallet.clear();
-          adresler.asMap().forEach((index, element) async {
+          await Future.forEach(adresler, (String element) async {
             var test = await _sshService.chainViewAddressValidation(element);
             print(test);
+            dataWallet.forEach((element) {
+              print(element);
+            });
             // print(element);
             if (jsonDecode(test)['pubkey'] == _sshService.pubKey) {
               _sshService.walletAddress = element;
               activeChainWalletAddress = element;
               log.v('Wallet Address: $element');
               dataWallet.add(Item(
-                  id: index + 1,
+                  id: dataWallet.length,
                   expandedValue: element,
                   headerValue: jsonDecode(test)['pubkey']));
               character = jsonDecode(test)['pubkey'];
               cmdLineResult = '';
             } else {
               dataWallet.add(Item(
-                  id: index + 1,
+                  id: dataWallet.length,
                   expandedValue: element,
                   headerValue: jsonDecode(test)['pubkey']));
               // buttonStart = true;

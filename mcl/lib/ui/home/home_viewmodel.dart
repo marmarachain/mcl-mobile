@@ -46,7 +46,8 @@ class HomeViewModel extends BaseViewModel {
   //   LocaleKeys.languages_english.locale,
   //   LocaleKeys.languages_arabic.locale
   // ];
-  List<String> popMenuLanguage = ["AR", "EN", "TR"];
+  List<String> popMenuLanguage = ["EN", "TR", "AR"];
+  String? secilenLocalDil;
 
   int _selectedRadio = 0;
   int _selectedLanguage = 0;
@@ -86,13 +87,15 @@ class HomeViewModel extends BaseViewModel {
     }
   }
 
-  Future<void> selectPopMenuLang() async {
-    await Future.delayed(Duration(seconds: 2));
-    popMenuLanguage = [
-      LocaleKeys.languages_turkish.locale,
-      LocaleKeys.languages_english.locale,
-      LocaleKeys.languages_arabic.locale
-    ];
+  void selectPopMenuLang(String choiceLang) {
+    // await Future.delayed(Duration(seconds: 2));
+    print(choiceLang);
+    secilenLocalDil = choiceLang;
+    // popMenuLanguage = [
+    //   LocaleKeys.languages_turkish.locale,
+    //   LocaleKeys.languages_english.locale,
+    //   LocaleKeys.languages_arabic.locale
+    // ];
     notifyListeners();
   }
 

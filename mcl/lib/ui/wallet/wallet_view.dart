@@ -159,36 +159,36 @@ class WalletView extends StatelessWidget {
                                                 ':     ${mclBlocChain.marmarainfo!['myActivatedAmount']}')
                                       ]),
                                 ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                // LocaleText(value: LocaleKeys.stats_activate),
+                                // SizedBox(
+                                //   height: 30,
+                                // ),
+                                // // LocaleText(value: LocaleKeys.stats_activate),
 
-                                RichText(
-                                  text: TextSpan(
-                                      style: TextStyle(fontSize: 16),
-                                      text: LocaleKeys.stats_inloop.tr(),
-                                      children: [
-                                        TextSpan(
-                                            text:
-                                                ':     ${mclBlocChain.marmarainfo!['TotalLockedInLoop']}')
-                                      ]),
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                // LocaleText(value: LocaleKeys.stats_activate),
+                                // RichText(
+                                //   text: TextSpan(
+                                //       style: TextStyle(fontSize: 16),
+                                //       text: LocaleKeys.stats_inloop.tr(),
+                                //       children: [
+                                //         TextSpan(
+                                //             text:
+                                //                 ':     ${mclBlocChain.marmarainfo!['TotalLockedInLoop']}')
+                                //       ]),
+                                // ),
+                                // SizedBox(
+                                //   height: 30,
+                                // ),
+                                // // LocaleText(value: LocaleKeys.stats_activate),
 
-                                RichText(
-                                  text: TextSpan(
-                                      style: TextStyle(fontSize: 16),
-                                      text: LocaleKeys.stats_bearerLoops.tr(),
-                                      children: [
-                                        TextSpan(
-                                            text:
-                                                ':     ${mclBlocChain.marmarainfo!['totalamount']}')
-                                      ]),
-                                ),
+                                // RichText(
+                                //   text: TextSpan(
+                                //       style: TextStyle(fontSize: 16),
+                                //       text: LocaleKeys.stats_bearerLoops.tr(),
+                                //       children: [
+                                //         TextSpan(
+                                //             text:
+                                //                 ':     ${mclBlocChain.marmarainfo!['totalamount']}')
+                                //       ]),
+                                // ),
                               ],
                             );
                     }),
