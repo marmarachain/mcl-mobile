@@ -32,23 +32,23 @@ dependencies:
   cupertino_icons: ^1.0.2
   dots_indicator: ^2.0.0
   easy_localization: ^3.0.0
+  flutter_easyloading: ^3.0.0
   flutter_slidable: null
+  flutter_ssh: ^0.0.1
   hive: ^2.0.4
   hive_flutter: ^1.0.0
   intl: ^0.17.0
   logger: ^1.0.0
+  new_version: ^0.2.2
   open_file: ^3.2.1
   path_provider: ^2.0.2
+  qr_code_scanner: ^0.5.1
   qr_flutter: ^4.0.0
-  flutter_ssh: ^0.0.1
   stacked: ^2.1.4
   stacked_services: ^0.8.6
   syncfusion_flutter_xlsio: ^19.1.66-beta
   universal_html: ^2.0.8
   uuid: ^3.0.4
-  qr_code_scanner: ^0.5.1
-  flutter_easyloading: ^3.0.0
-  
 
 dev_dependencies:
   flutter_test:

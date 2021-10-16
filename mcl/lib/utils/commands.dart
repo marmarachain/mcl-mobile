@@ -33,7 +33,8 @@ Map commands = {
   "": "komodo-cli -ac_name=MCL listaddressgroupings",
   "addnode":
       "komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=149.202.158.145 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 &",
-  "marmaraissue": '''komodo-cli -ac_name=MCL marmaraissue'''
+  "marmaraissue": '''komodo-cli -ac_name=MCL marmaraissue''',
+  "listtransactions": 'komodo-cli -ac_name=MCL listtransactions "*"'
 };
 
 // Zinciri başlatmak isitiyor musunuz? Bu işlem biraz uzun sürebilir.

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mcl/models/transaction.dart';
 import 'package:mcl/widgets/custom_animation.dart';
 import 'package:stacked_services/stacked_services.dart';
 import './models/chain.dart';
@@ -24,10 +25,12 @@ void main() async {
   // await Hive.openBox('sunucular');
   Hive.registerAdapter(ChainAdapter());
   Hive.registerAdapter(PersonAdapter());
+  Hive.registerAdapter(TransactionAdapter());
 
   await Hive.openBox('dashboard');
   await Hive.openBox('kisiler');
   await Hive.openBox('sunucular');
+  await Hive.openBox('transactions');
 
   runApp(EasyLocalization(
       child: MyApp(),

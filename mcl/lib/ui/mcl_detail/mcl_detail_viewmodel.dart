@@ -387,7 +387,6 @@ class MclDetailViewModel extends BaseViewModel {
                             ? Center(
                                 child: Text(
                                   '${LocaleKeys.contact_yet.locale}',
-                                  style: Theme.of(context).textTheme.title,
                                 ),
                               )
                             : Expanded(

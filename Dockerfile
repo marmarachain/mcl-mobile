@@ -38,4 +38,4 @@ RUN ~/komodo/zcutil/build.sh -j$(nproc)
 RUN wget https://eu.bootstrap.dexstats.info/MCL-bootstrap.tar.gz
 
 RUN mkdir -p ~/.komodo/MCL
-RUN tar -xvf /MCL-bootstrap.tar.gz -C ~/.komodo/MCL
+RUN tar -xvf ~/MCL-bootstrap.tar.gz -C ~/.komodo/MCL

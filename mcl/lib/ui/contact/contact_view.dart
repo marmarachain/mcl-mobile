@@ -84,7 +84,7 @@ class ContactView extends StatelessWidget {
                                 ),
                                 title: Text(
                                   kisi.isim,
-                                  style: Theme.of(context).textTheme.title,
+                                  // style: Theme.of(context).textTheme.title,
                                 ),
                                 subtitle: Text(
                                   kisi.pubKey,

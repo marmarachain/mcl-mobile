@@ -13,17 +13,20 @@ import '../ui/contact/contact_view.dart';
 import '../ui/home/home_view.dart';
 import '../ui/mcl_detail/mcl_detail_view.dart';
 import '../ui/startup/startup_view.dart';
+import '../ui/transactions/transactions_view.dart';
 
 class Routes {
   static const String startUpView = '/';
   static const String homeView = '/home-view';
   static const String contactView = '/contact-view';
   static const String mclDetailView = '/mcl-detail-view';
+  static const String transactionsView = '/transactions-view';
   static const all = <String>{
     startUpView,
     homeView,
     contactView,
     mclDetailView,
+    transactionsView,
   };
 }
 
@@ -35,6 +38,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.contactView, page: ContactView),
     RouteDef(Routes.mclDetailView, page: MclDetailView),
+    RouteDef(Routes.transactionsView, page: TransactionsView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -66,6 +70,12 @@ class StackedRouter extends RouterBase {
           key: args.key,
           passwordServer: args.passwordServer,
         ),
+        settings: data,
+      );
+    },
+    TransactionsView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const TransactionsView(),
         settings: data,
       );
     },

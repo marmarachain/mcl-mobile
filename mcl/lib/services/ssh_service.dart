@@ -593,4 +593,19 @@ class SshService {
       return '';
     }
   }
+
+  // LIST TRANSACTIONS START
+  Future<String> onClickListTransactions(
+      {int count = 10, int start = 0}) async {
+    try {
+      var result = await _currentServer!
+          .execute("$pathCli${commands['listtransactions']} $count $start");
+      print(result);
+      return result;
+    } on PlatformException catch (e) {
+      print('Error: ${e.code}\nError Message: ${e.message}');
+      return '';
+    }
+  }
+  // LIST TRANSACTIONS STOP
 }

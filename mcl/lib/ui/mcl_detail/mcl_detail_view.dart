@@ -5,6 +5,7 @@ import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/ui/chain/chain_view.dart';
 import 'package:mcl/ui/credit/credit_view.dart';
 import 'package:mcl/ui/receive_send/receive_send_view.dart';
+import 'package:mcl/ui/transactions/transactions_view.dart';
 import 'package:mcl/ui/wallet/wallet_view.dart';
 import 'package:stacked/stacked.dart';
 import './mcl_detail_trackmodel.dart';
@@ -62,11 +63,10 @@ class MclDetailView extends StatelessWidget {
                 icon: Icon(Icons.credit_card),
                 title: Text('${LocaleKeys.credit_name.tr()}'),
                 activeColor: Colors.pink),
-            // BottomNavyBarItem(
-            //     icon: Icon(Icons.settings),
-            //     title: Text('İdari Görevlendirmeler'),
-            //     activeColor: Colors.blue
-            // ),
+            BottomNavyBarItem(
+                icon: Icon(Icons.list),
+                title: Text('İşlemler'),
+                activeColor: Colors.blue),
           ],
         ),
       ),
@@ -88,10 +88,10 @@ class MclDetailView extends StatelessWidget {
         );
       case 2:
         return ReceiveSendView();
+      case 3:
+        return CreditView();
       default:
-        return CreditView(
-          zincirPassword: this.passwordServer,
-        );
+        return TransactionsView();
     }
   }
 }

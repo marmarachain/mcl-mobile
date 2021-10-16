@@ -78,7 +78,6 @@ class HomeView extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 LocaleKeys.home_yet.locale,
-                                style: Theme.of(context).textTheme.title,
                               ),
                               SizedBox(
                                 height: 20,
@@ -247,7 +246,7 @@ class HomeView extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     LocaleKeys.home_addServer.locale,
-                                    style: Theme.of(context).textTheme.title,
+                                    // style: Theme.of(context).textTheme.title,
                                   ),
                                   // SizedBox(
                                   //   height: 20,

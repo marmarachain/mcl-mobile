@@ -6,7 +6,12 @@ class RangePriceSLider extends StatefulWidget {
 
   final void Function(RangeValues values) onCompleted;
 
-  const RangePriceSLider({Key? key, required this.min, required this.max, required this.onCompleted}) : super(key: key);
+  const RangePriceSLider(
+      {Key? key,
+      required this.min,
+      required this.max,
+      required this.onCompleted})
+      : super(key: key);
   @override
   _RangePriceSLiderState createState() => _RangePriceSLiderState();
 }
@@ -26,9 +31,9 @@ class _RangePriceSLiderState extends State<RangePriceSLider> {
       values: _values,
       max: widget.max,
       min: widget.min,
-      labels: RangeLabels('${_values.start}', '${_values.end}'),
+      labels: RangeLabels('${_values.start.round()}', '${_values.end.round()}'),
       activeColor: Colors.red,
-      divisions: 10,
+      divisions: 9,
       onChanged: (value) {
         setState(() {
           _values = value;
