@@ -172,7 +172,15 @@ class ChainViewModel extends BaseViewModel {
           dataWallet.clear();
           await Future.forEach(adresler, (String element) async {
             var test = await _sshService.chainViewAddressValidation(element);
+            // Cüzdan bakiyeleri ogreme kaldırıldı zincirde cüzdan çoksa cevaplar uzun sürüyor sonrasında istenilen cüzdan(Item) a balance eklenebilir
+            // balance: jsonDecode(testBalance)['balance'] == 0
+            //           ? 0
+            //           : jsonDecode(testBalance)['balance'] / 100000000)
+
+            // var testBalance =
+            //     await _sshService.chainViewAddressBalance(element);
             print(test);
+            // print(testBalance);
             dataWallet.forEach((element) {
               print(element);
             });
@@ -182,16 +190,18 @@ class ChainViewModel extends BaseViewModel {
               activeChainWalletAddress = element;
               log.v('Wallet Address: $element');
               dataWallet.add(Item(
-                  id: dataWallet.length,
-                  expandedValue: element,
-                  headerValue: jsonDecode(test)['pubkey']));
+                id: dataWallet.length,
+                expandedValue: element,
+                headerValue: jsonDecode(test)['pubkey'],
+              ));
               character = jsonDecode(test)['pubkey'];
               cmdLineResult = '';
             } else {
               dataWallet.add(Item(
-                  id: dataWallet.length,
-                  expandedValue: element,
-                  headerValue: jsonDecode(test)['pubkey']));
+                id: dataWallet.length,
+                expandedValue: element,
+                headerValue: jsonDecode(test)['pubkey'],
+              ));
               // buttonStart = true;
             }
             if (_sshService.pubKey == '') {

@@ -203,7 +203,7 @@ class HomeView extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                model.ekliSunucuSayisi == 3
+                                model.ekliSunucuSayisi == 4
                                     ? ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
                                             behavior: SnackBarBehavior.floating,

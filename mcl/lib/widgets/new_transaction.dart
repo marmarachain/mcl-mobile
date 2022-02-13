@@ -76,76 +76,74 @@ class _NewTransactionState extends State<NewTransaction> {
           _portController.text == "" ? '22' : _portController.text;
     }
 
-    return SingleChildScrollView(
-      child: Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Align(
-                  alignment: Alignment.center,
-                  child: Text('${LocaleKeys.home_serverAdd.locale}')),
-              Divider(height: 2, thickness: 2),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: '${LocaleKeys.home_serverName.locale}'),
-                controller: _titleController,
-                textInputAction: TextInputAction.next,
-                onSubmitted: (_) => _submitData(),
-                // onChanged: (val) {
-                //   titleInput = val;
-                // },
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: '${LocaleKeys.home_username.locale}'),
-                controller: _usernameController,
-                textInputAction: TextInputAction.next,
-                onSubmitted: (_) => _submitData(),
-                // onChanged: (val) {
-                //   titleInput = val;
-                // },
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: '${LocaleKeys.home_ipaddress.locale}'),
-                controller: _addressController,
-                autofocus: true,
+    return Card(
+      elevation: 5,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Align(
+                alignment: Alignment.center,
+                child: Text('${LocaleKeys.home_serverAdd.locale}')),
+            Divider(height: 2, thickness: 2),
+            TextField(
+              decoration: InputDecoration(
+                  labelText: '${LocaleKeys.home_serverName.locale}'),
+              controller: _titleController,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => _submitData(),
+              // onChanged: (val) {
+              //   titleInput = val;
+              // },
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  labelText: '${LocaleKeys.home_username.locale}'),
+              controller: _usernameController,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => _submitData(),
+              // onChanged: (val) {
+              //   titleInput = val;
+              // },
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  labelText: '${LocaleKeys.home_ipaddress.locale}'),
+              controller: _addressController,
+              autofocus: true,
 
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.number,
-                // onSubmitted: (_) => _submitData(),
-                // onChanged: (val) => amountInput = val,
-                onChanged: (text) {
-                  _addressController..text = text;
-                  _addressController
-                    ..selection = TextSelection.collapsed(
-                        offset: _addressController.text.length);
-                },
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: '${LocaleKeys.home_portNumber.locale}'),
-                controller: _portController,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.number,
-                onSubmitted: (_) => _submitData(),
-                // onChanged: (val) => amountInput = val,
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              ElevatedButton(
-                child: Text('${LocaleKeys.home_save.locale}'),
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                    textStyle: TextStyle(color: Colors.black)),
-                onPressed: _submitData,
-              ),
-            ],
-          ),
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
+              // onSubmitted: (_) => _submitData(),
+              // onChanged: (val) => amountInput = val,
+              onChanged: (text) {
+                _addressController..text = text;
+                _addressController
+                  ..selection = TextSelection.collapsed(
+                      offset: _addressController.text.length);
+              },
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  labelText: '${LocaleKeys.home_portNumber.locale}'),
+              controller: _portController,
+              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => _submitData(),
+              // onChanged: (val) => amountInput = val,
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            ElevatedButton(
+              child: Text('${LocaleKeys.home_save.locale}'),
+              style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                  textStyle: TextStyle(color: Colors.black)),
+              onPressed: _submitData,
+            ),
+          ],
         ),
       ),
     );

@@ -29,13 +29,13 @@ RUN apt-get upgrade -y
 
 RUN apt-get install build-essential pkg-config libc6-dev m4 g++-multilib autoconf libtool ncurses-dev unzip git python python-zmq zlib1g-dev wget curl bsdmainutils automake cmake clang ntp ntpdate nano -y
 
-RUN git clone https://github.com/marmarachain/marmara ~/komodo --branch master --single-branch
+# RUN git clone https://github.com/marmarachain/marmara ~/komodo --branch master --single-branch
 
 
-RUN ~/komodo/zcutil/fetch-params.sh
-RUN ~/komodo/zcutil/build.sh -j$(nproc)
+# RUN ~/komodo/zcutil/fetch-params.sh
+# RUN ~/komodo/zcutil/build.sh -j$(nproc)
 
-RUN wget https://eu.bootstrap.dexstats.info/MCL-bootstrap.tar.gz
+# RUN wget https://eu.bootstrap.dexstats.info/MCL-bootstrap.tar.gz
 
-RUN mkdir -p ~/.komodo/MCL
-RUN tar -xvf ~/MCL-bootstrap.tar.gz -C ~/.komodo/MCL
+# RUN mkdir -p ~/.komodo/MCL
+# RUN tar -xvf ~/MCL-bootstrap.tar.gz -C ~/.komodo/MCL

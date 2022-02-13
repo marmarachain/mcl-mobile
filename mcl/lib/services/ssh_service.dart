@@ -112,13 +112,14 @@ class SshService {
           default:
         }
         // _currentServer = sshAccount;
-        var mclFile = await _currentServer!
-            .execute('find ~/.komodo -iname "MCL" -type d');
-        print(mclFile);
-        if (mclFile == '') {
-          chainWork = false;
-          return 'MCL no';
-        }
+
+        // var mclFile = await _currentServer!
+        //     .execute('find ~/.komodo -iname "MCL" -type d');
+        // print(mclFile);
+        // if (mclFile == '') {
+        //   chainWork = false;
+        //   return 'MCL no';
+        // }
         var cliFile =
             await _currentServer!.execute('find / -iname "komodo-cli"');
         print(cliFile);
@@ -361,7 +362,7 @@ class SshService {
 
     try {
       result = await _currentServer!
-          .execute("$pathCli${commands['getaddressesbyaccount']}");
+          .execute("$pathCli${commands['getaddressesbyaccount']} ''");
       return result;
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
@@ -374,6 +375,19 @@ class SshService {
     try {
       result = await _currentServer!
           .execute("$pathCli${commands['validateaddress']} $walletAddress");
+      return result;
+    } on PlatformException catch (e) {
+      print('Error: ${e.code}\nError Message: ${e.message}');
+      return '';
+    }
+  }
+
+  Future<String> chainViewAddressBalance(String walletAddress) async {
+    String result;
+
+    try {
+      result = await _currentServer!.execute(
+          """komodo/src/komodo-cli -ac_name=MCL getaddressbalance '{"addresses":["$walletAddress"]}'""");
       return result;
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');

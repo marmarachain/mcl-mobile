@@ -159,35 +159,25 @@ class ChainView extends StatelessWidget {
                               children: [
                                 Text(
                                     "${item.id + 1}. ${LocaleKeys.chain_myWallet.locale}"),
-                                Row(
-                                  children: [
-                                    // item.expandedValue ==
-                                    //         model.activeChainWalletAddress
-                                    //     ? Icon(
-                                    //         Icons.check,
-                                    //         color: Colors.red[400],
-                                    //       )
-                                    //     : SizedBox(),
-                                    IconButton(
-                                        icon: Icon(
-                                          Icons.account_balance_wallet,
-                                          color: Colors.black54,
-                                        ),
-                                        onPressed: () => model.copiedToClipboard(
-                                            context,
-                                            item.expandedValue,
-                                            '${LocaleKeys.chain_walletAddress.locale}')),
-                                    IconButton(
-                                        icon: Icon(
-                                          Icons.vpn_key,
-                                          color: Colors.black54,
-                                        ),
-                                        onPressed: () => model.copiedToClipboard(
-                                            context,
-                                            item.headerValue,
-                                            '${LocaleKeys.chain_pubKey.locale}'))
-                                  ],
-                                )
+                                // Text(item.balance.toStringAsFixed(2)),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.account_balance_wallet,
+                                      color: Colors.black54,
+                                    ),
+                                    onPressed: () => model.copiedToClipboard(
+                                        context,
+                                        item.expandedValue,
+                                        '${LocaleKeys.chain_walletAddress.locale}')),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.vpn_key,
+                                      color: Colors.black54,
+                                    ),
+                                    onPressed: () => model.copiedToClipboard(
+                                        context,
+                                        item.headerValue,
+                                        '${LocaleKeys.chain_pubKey.locale}'))
                               ],
                             ),
                             groupValue: model.character,
@@ -199,7 +189,7 @@ class ChainView extends StatelessWidget {
                         },
                         body: ListTile(
                             title: Text(item.expandedValue),
-                            subtitle: Text(item.headerValue),
+                            subtitle: Text("${item.headerValue}"),
                             // trailing: Row(
                             //   children: [
                             //     Icon(Icons.delete),
