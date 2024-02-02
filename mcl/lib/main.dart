@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mcl/models/transaction.dart';
 import 'package:mcl/widgets/custom_animation.dart';
@@ -21,15 +20,13 @@ void main() async {
 
   await Hive.initFlutter('mcl-mobile');
 
-  // Box => sql veritabanlarındaki tablolara denk gelir
-  // await Hive.openBox('sunucular');
   Hive.registerAdapter(ChainAdapter());
   Hive.registerAdapter(PersonAdapter());
   Hive.registerAdapter(TransactionAdapter());
 
   await Hive.openBox('dashboard');
-  await Hive.openBox('kisiler');
-  await Hive.openBox('sunucular');
+  await Hive.openBox('contacts');
+  await Hive.openBox('servers');
   await Hive.openBox('transactions');
 
   runApp(EasyLocalization(
@@ -67,7 +64,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.red,
-        accentColor: Colors.amber,
+        primaryColor: Colors.amber,
         fontFamily: ApplicationConstants.FONT_FAMILY,
       ),
       navigatorKey: StackedService.navigatorKey,

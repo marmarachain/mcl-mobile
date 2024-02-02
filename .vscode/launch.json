@@ -8,7 +8,13 @@
             "name": "mcl",
             "cwd": "mcl",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "-t",
+                "lib/main.dart",
+            ],
+            // "program": "${workspaceFolder}/mcl/lib/main.dart",
+            "deviceId": "21ca4e0f"
         },
         {
             "name": "mcl (profile mode)",

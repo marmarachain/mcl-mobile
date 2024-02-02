@@ -1,11 +1,11 @@
 import 'dart:convert';
-
+import 'dart:developer';
+import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:mcl/app/app.logger.dart';
 import 'package:mcl/models/chain.dart';
 import 'package:mcl/utils/commands.dart';
-import 'package:mcl/utils/ssh.dart';
 
 class SshService {
   final log = getLogger('SshService');
@@ -50,21 +50,21 @@ class SshService {
   Future<void> logout() async {
     switch (mclSelectedBlocChainIndex) {
       case 0:
-        _currentServer0!.disconnect();
+        _currentServer0!.close();
         _currentServer0 = null;
         break;
       case 1:
-        _currentServer1!.disconnect();
+        _currentServer1!.close();
         _currentServer1 = null;
         break;
       case 2:
-        _currentServer2!.disconnect();
+        _currentServer2!.close();
         _currentServer2 = null;
         break;
       default:
     }
     mclSelectedBlocChainIndex = -1;
-    await _currentServer!.disconnect();
+    _currentServer!.close();
     _currentServer = null;
   }
 
@@ -74,9 +74,8 @@ class SshService {
     final dashboardBox = Hive.box('dashboard');
     int indexServer = dashboardBox.get('selected_server_index');
 
-    final sunucularBox = Hive.box('sunucular');
+    final sunucularBox = Hive.box('servers');
     final sunucu = sunucularBox.getAt(indexServer) as Chain;
-    print(sunucu.port);
 
     var hostValue = sunucu.address;
     var portValue = sunucu.port;
@@ -84,14 +83,15 @@ class SshService {
     var passwordValue = passServer;
 
     try {
-      SSHClient sshAccount = SSHClient(
-          host: hostValue,
-          port: portValue,
-          username: usernameValue,
-          passwordOrKey: passwordValue);
-      var result = await sshAccount.connect();
+      final sshAccount = SSHClient(
+        await SSHSocket.connect(hostValue, portValue),
+        username: usernameValue,
+        onPasswordRequest: () => passwordValue,
+      );
 
-      if (result == "session_connected") {
+      inspect(sshAccount);
+
+      if (!sshAccount.isClosed) {
         log.v('Ssh connected!');
         switch (indexServer) {
           case 0:
@@ -111,18 +111,18 @@ class SshService {
             break;
           default:
         }
-        // _currentServer = sshAccount;
+        _currentServer = sshAccount;
 
-        // var mclFile = await _currentServer!
-        //     .execute('find ~/.komodo -iname "MCL" -type d');
-        // print(mclFile);
-        // if (mclFile == '') {
-        //   chainWork = false;
-        //   return 'MCL no';
-        // }
-        var cliFile =
-            await _currentServer!.execute('find / -iname "komodo-cli"');
-        print(cliFile);
+        var mclFile =
+            await _currentServer!.run('find ~/.komodo -iname "MCL" -type d');
+        print(utf8.decode(mclFile));
+        if (utf8.decode(mclFile) == '') {
+          chainWork = false;
+          return 'MCL no';
+        }
+        var cliFileIs = await _currentServer!.run('find / -iname "komodo-cli"');
+        print(utf8.decode(cliFileIs));
+        var cliFile = utf8.decode(cliFileIs);
         if (cliFile != '') {
           var newPath = cliFile.replaceAll("\n", "").replaceAll("\r", "");
           pathCli = newPath
@@ -130,18 +130,24 @@ class SshService {
                   .sublist(0, newPath.split('/').length - 1)
                   .join('/') +
               '/';
-          _currentServer!.pathMclCli = newPath
+
+          var komodoRunPath = newPath
                   .split('/')
                   .sublist(0, newPath.split('/').length - 1)
                   .join('/') +
               '/';
+          pathCli = komodoRunPath;
         }
-        var test =
-            await _currentServer!.execute("$pathCli${commands['getinfo']}");
+        var test_one =
+            await _currentServer!.run("$pathCli${commands['getinfo']}");
+        var test = utf8.decode(test_one);
+        inspect(test);
+        Map<String, dynamic> data = jsonDecode(test);
+        inspect(data);
+
         if (test != '') {
           if (jsonDecode(test)['pubkey'] != null) {
             pubKey = jsonDecode(test)['pubkey'];
-            // pubKey = '';
             log.v('PubKey: $pubKey');
             return pubKey;
           }
@@ -164,30 +170,27 @@ class SshService {
       double minAmount = 0,
       double maxAmount = 0}) async {
     try {
-      var result = await _currentServer!.execute(
+      var result = await _currentServer!.run(
           "$pathCli${commands['marmaraholderloops']} $firstHeight $lastHeight $minAmount $maxAmount $_pubKey");
 
-      return result;
+      return utf8.decode(result);
     } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
+      inspect('Error: ${e.code}\nError Message: ${e.message}');
       return '';
     }
   }
 
   Future<void> marmaraInfoBlocChain() async {
-    String result;
     try {
-      result = await _currentServer!.connect();
-      if (result == "session_connected") {
-        result = await _currentServer!
-            .execute("$pathCli${commands['marmarainfo']} $pubKey");
+      // result = await _currentServer.connect();
+      var result = await _currentServer!
+          .run("$pathCli${commands['marmarainfo']} $pubKey");
 
-        final contactsBox = Hive.box('sunucular');
-        final mclBlockChain =
-            contactsBox.getAt(mclSelectedBlocChainIndex!) as Chain;
-        mclBlockChain.marmarainfo = jsonDecode(result);
-        contactsBox.putAt(mclSelectedBlocChainIndex!, mclBlockChain);
-      }
+      final contactsBox = Hive.box('servers');
+      final mclBlockChain =
+          contactsBox.getAt(mclSelectedBlocChainIndex!) as Chain;
+      mclBlockChain.marmarainfo = jsonDecode(utf8.decode(result));
+      contactsBox.putAt(mclSelectedBlocChainIndex!, mclBlockChain);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
     }
@@ -195,23 +198,27 @@ class SshService {
 
   Future<String> krediIstegiOnaylama(String receivePubKey, String txId) async {
     try {
-      var sendtxid = await _currentServer!.execute(
+      var sendtxid = await _currentServer!.run(
           '''$pathCli${commands['marmaraissue']} $receivePubKey '{"avalcount":"0", "autosettlement":"true", "autoinsurance":"true", "disputeexpires":"0", "EscrowOn":"false", "BlockageAmount":"0" }' $txId''');
 
-      var rawSendTxId = sendtxid.replaceAll("\n", "").replaceAll("\r", "");
+      var rawSendTxId =
+          utf8.decode(sendtxid).replaceAll("\n", "").replaceAll("\r", "");
       Map jsonHex = jsonDecode(rawSendTxId);
       if (jsonHex['result'] == 'success') {
-        var sendOnayi = await _currentServer!.execute(
+        var sendOnayi = await _currentServer!.run(
             "$pathCli${commands['sendrawtransaction']} '${jsonHex['hex']}'");
-        print(sendOnayi);
+        inspect(sendOnayi);
         if (sendOnayi.length > 2) {
-          return sendOnayi.replaceAll("\n", "").replaceAll("\r", "");
+          return utf8
+              .decode(sendOnayi)
+              .replaceAll("\n", "")
+              .replaceAll("\r", "");
         }
       }
 
       return '';
     } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
+      inspect('Error: ${e.code}\nError Message: ${e.message}');
       return '';
     }
   }
@@ -219,16 +226,20 @@ class SshService {
   Future<String> cuzdanAktifleme(int amount) async {
     try {
       var sendtxid = await _currentServer!
-          .execute("$pathCli${commands['marmaralock']} $amount");
+          .run("$pathCli${commands['marmaralock']} $amount");
 
-      var rawSendTxId = sendtxid.replaceAll("\n", "").replaceAll("\r", "");
+      var rawSendTxId =
+          utf8.decode(sendtxid).replaceAll("\n", "").replaceAll("\r", "");
       Map jsonHex = jsonDecode(rawSendTxId);
       if (jsonHex['result'] == 'success') {
-        var sendOnayi = await _currentServer!.execute(
+        var sendOnayi = await _currentServer!.run(
             "$pathCli${commands['sendrawtransaction']} '${jsonHex['hex']}'");
         print(sendOnayi);
         if (sendOnayi.length > 2) {
-          return sendOnayi.replaceAll("\n", "").replaceAll("\r", "");
+          return utf8
+              .decode(sendOnayi)
+              .replaceAll("\n", "")
+              .replaceAll("\r", "");
         }
       }
       return '';
@@ -240,8 +251,9 @@ class SshService {
 
   Future<String> cuzdanDeaktifleme(int amount) async {
     try {
-      var sendtxid = await _currentServer!
-          .execute("$pathCli${commands['marmaraunlock']} $amount");
+      var sendtxidRun = await _currentServer!
+          .run("$pathCli${commands['marmaraunlock']} $amount");
+      var sendtxid = utf8.decode(sendtxidRun);
       // print(sendtxid);
       // print(sendtxid.contains("\n"));
       // print(sendtxid.replaceAll("\n", "").contains("\n"));
@@ -253,9 +265,11 @@ class SshService {
       var rawSendTxId = sendtxid.replaceAll("\n", "").replaceAll("\r", "");
       // Map jsonHex = jsonDecode(rawSendTxId);
       if (true) {
-        var sendOnayi = await _currentServer!.execute(
-            "$pathCli${commands['sendrawtransaction']} '$rawSendTxId'");
-        print(sendOnayi);
+        var sendOnayiRun = await _currentServer!
+            .run("$pathCli${commands['sendrawtransaction']} '$rawSendTxId'");
+
+        var sendOnayi = utf8.decode(sendOnayiRun);
+        inspect(sendOnayi);
         if (sendOnayi.length > 2) {
           return sendOnayi.replaceAll("\n", "").replaceAll("\r", "");
         }
@@ -273,15 +287,16 @@ class SshService {
       print(commands['sendrawtransaction']);
       print(gelensendTxId);
       print(gelensendTxId.length);
-      var sendOnayi = await _currentServer!.execute(
+      var sendOnayiRun = await _currentServer!.run(
           "./komodo/src/komodo-cli -ac_name=MCL sendrawtransaction '$gelensendTxId'");
-      print(sendOnayi);
+      var sendOnayi = utf8.decode(sendOnayiRun);
+      inspect(sendOnayi);
       if (sendOnayi.length > 2) {
         return true;
       }
       return false;
     } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
+      inspect('Error: ${e.code}\nError Message: ${e.message}');
       return false;
     }
   }
@@ -289,19 +304,21 @@ class SshService {
   Future<String?> onClickCirantaDonguDetay(String batonId) async {
     try {
       var result = await _currentServer!
-          .execute("$pathCli${commands['marmaracreditloop']}$batonId");
-      return result;
+          .run("$pathCli${commands['marmaracreditloop']}$batonId");
+      return utf8.decode(result);
     } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
+      inspect('Error: ${e.code}\nError Message: ${e.message}');
     }
+    return null;
   }
 
   Future<String> receiveSend(String receiverAddress, double amount) async {
     try {
-      var sendtxid = await _currentServer!.execute(
+      var sendtxid = await _currentServer!.run(
           '$pathCli${commands['sendtoaddress']} "$receiverAddress" $amount');
 
-      var rawSendTxId = sendtxid.replaceAll("\n", "").replaceAll("\r", "");
+      var rawSendTxId =
+          utf8.decode(sendtxid).replaceAll("\n", "").replaceAll("\r", "");
 
       if (rawSendTxId.length == 64) {
         return rawSendTxId;
@@ -309,18 +326,9 @@ class SshService {
 
       return '';
     } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
+      inspect('Error: ${e.code}\nError Message: ${e.message}');
       return '';
     }
-  }
-
-  void sshdenemebaglanti() async {
-    var result = await _currentServer!.connect();
-    print("SERVER ICINDEN BAGLANTI KONTROL");
-    print(result);
-    var komut = await _currentServer!
-        .execute("$pathCli${commands['getaddressesbyaccount']}");
-    print(komut);
   }
 
   bool isServerConnect(int serverIndex) {
@@ -328,26 +336,26 @@ class SshService {
     try {
       switch (serverIndex) {
         case 0:
-          var result = _currentServer0!.connect();
+          var result = _currentServer0!.shell();
           _currentServer = _currentServer0;
           mclSelectedBlocChainIndex = 0;
-          pathCli = _currentServer!.pathMclCli;
-          print(result);
+          // pathCli = _currentServer!.pathMclCli;
+          // print(result);
           return true;
         // break;
         case 1:
-          var result = _currentServer1!.connect();
+          var result = _currentServer1!.shell();
           _currentServer = _currentServer1;
           mclSelectedBlocChainIndex = 1;
-          pathCli = _currentServer!.pathMclCli;
-          print(result);
+          // pathCli = _currentServer!.pathMclCli;
+          // print(result);
           return true;
         case 2:
-          var result = _currentServer2!.connect();
+          var result = _currentServer2!.shell();
           _currentServer = _currentServer2;
           mclSelectedBlocChainIndex = 2;
-          pathCli = _currentServer!.pathMclCli;
-          print(result);
+          // pathCli = _currentServer!.pathMclCli;
+          // print(result);
           return true;
         default:
           return false;
@@ -358,12 +366,12 @@ class SshService {
   }
 
   Future<String> chainViewModelStart() async {
-    String result;
+    var result;
 
     try {
       result = await _currentServer!
-          .execute("$pathCli${commands['getaddressesbyaccount']} ''");
-      return result;
+          .run("$pathCli${commands['getaddressesbyaccount']} ''");
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -371,11 +379,11 @@ class SshService {
   }
 
   Future<String> chainViewAddressValidation(String walletAddress) async {
-    String result;
+    var result;
     try {
       result = await _currentServer!
-          .execute("$pathCli${commands['validateaddress']} $walletAddress");
-      return result;
+          .run("$pathCli${commands['validateaddress']} $walletAddress");
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -383,12 +391,12 @@ class SshService {
   }
 
   Future<String> chainViewAddressBalance(String walletAddress) async {
-    String result;
+    var result;
 
     try {
-      result = await _currentServer!.execute(
+      result = await _currentServer!.run(
           """komodo/src/komodo-cli -ac_name=MCL getaddressbalance '{"addresses":["$walletAddress"]}'""");
-      return result;
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -396,10 +404,10 @@ class SshService {
   }
 
   Future<String> chainStop() async {
-    String result;
+    var result;
     try {
-      result = await _currentServer!.execute("$pathCli${commands['stop']}");
-      return result;
+      result = await _currentServer!.run("$pathCli${commands['stop']}");
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -407,11 +415,11 @@ class SshService {
   }
 
   Future<String> chainStart(String gelenPuKey) async {
-    String result;
+    var result;
     try {
       result = await _currentServer!
-          .execute("$pathCli${commands['start']}$gelenPuKey &");
-      return result;
+          .run("$pathCli${commands['start']}$gelenPuKey &");
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -419,18 +427,18 @@ class SshService {
   }
 
   Future<String> chainPrivateKeyShow(String getWalletAddress) async {
-    print(pubKey);
+    inspect(pubKey);
     var searchWalletAddress;
     if (getWalletAddress == '') {
       searchWalletAddress = walletAddress;
     } else {
       searchWalletAddress = getWalletAddress;
     }
-    String result;
+    var result;
     try {
       result = await _currentServer!
-          .execute("$pathCli${commands['dumpprivkey']} $searchWalletAddress &");
-      return result;
+          .run("$pathCli${commands['dumpprivkey']} $searchWalletAddress &");
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -440,13 +448,13 @@ class SshService {
   Future<String> chainPrivateKeyAdd(String privateKey) async {
     try {
       var findWalletAddress = await _currentServer!
-          .execute("$pathCli${commands['importprivkey']} $privateKey");
-      var checkAddress = await _currentServer!.execute(
-          "$pathCli${commands['validateaddress']} $findWalletAddress &");
-      print(jsonDecode(checkAddress)['isvalid']);
-      print(jsonDecode(checkAddress));
-      if (jsonDecode(checkAddress)['isvalid']) {
-        return findWalletAddress;
+          .run("$pathCli${commands['importprivkey']} $privateKey");
+      var checkAddress = await _currentServer!
+          .run("$pathCli${commands['validateaddress']} $findWalletAddress &");
+      // print(utf8.decode(checkAddress)['isvalid']);
+      // print(jsonDecode(checkAddress));
+      if (jsonDecode(utf8.decode(checkAddress))['isvalid']) {
+        return findWalletAddress.toString();
       } else {
         return '';
       }
@@ -457,26 +465,26 @@ class SshService {
   }
 
   Future<String> chainNewWalletAddressCreate(String workGroup) async {
-    String result;
+    var result;
     try {
       if (workGroup == '') {
-        var newwalletaddress = await _currentServer!
-            .execute("$pathCli${commands['getnewaddress']}");
+        var newwalletaddress =
+            await _currentServer!.run("$pathCli${commands['getnewaddress']}");
         result = await _currentServer!
-            .execute("$pathCli${commands['dumpprivkey']} $newwalletaddress");
-        var checkAddress = await _currentServer!.execute(
-            "$pathCli${commands['validateaddress']} $newwalletaddress &");
-        print(jsonDecode(checkAddress)['isvalid']);
-        print(jsonDecode(checkAddress));
-        if (jsonDecode(checkAddress)['isvalid']) {
-          return checkAddress;
+            .run("$pathCli${commands['dumpprivkey']} $newwalletaddress");
+        var checkAddress = await _currentServer!
+            .run("$pathCli${commands['validateaddress']} $newwalletaddress &");
+        print(jsonDecode(utf8.decode(checkAddress))['isvalid']);
+        print(jsonDecode(utf8.decode(checkAddress)));
+        if (jsonDecode(utf8.decode(checkAddress))['isvalid']) {
+          return jsonDecode(utf8.decode(checkAddress));
         } else {
           return '';
         }
       } else {
         result = await _currentServer!
-            .execute('$pathCli${commands['convertpassphrase']} "$workGroup"');
-        if (jsonDecode(result)['wif'] != null) {
+            .run('$pathCli${commands['convertpassphrase']} "$workGroup"');
+        if (jsonDecode(utf8.decode(result))['wif'] != null) {
           await chainPrivateKeyAdd(jsonDecode(result)['wif']);
         }
         return result;
@@ -490,20 +498,18 @@ class SshService {
   Future<String> getCmdMcl(ctx, cmd, pubKey) async {
     print('baglantı kuruluyor...');
     var test = await _currentServer!
-        .execute("./komodo/src/komodo-cli -ac_name=MCL $cmd $pubKey");
-    print(test);
-    return test;
+        .run("./komodo/src/komodo-cli -ac_name=MCL $cmd $pubKey");
+    // print(test);
+    return utf8.decode(test);
     // var test = await _sshService.getCommandMcl(cmd, pubKey);
     // return test;
   }
 
   Future<String> onClickCreditIssuerRefresh({int afterDate = 0}) async {
     try {
-      var result = await _currentServer!.execute(
+      var result = await _currentServer!.run(
           "$pathCli${commands['marmarareceivelist']} $pubKey ${afterDate != 0 ? afterDate : ''}");
-      // print(
-      //     "$pathCli${commands['marmarareceivelist']} $pubKey ${afterDate != 0 ? afterDate : ''}");
-      return result;
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -515,21 +521,25 @@ class SshService {
     try {
       var sendtxid;
       if (amountOrBatonid.length == 64) {
-        sendtxid = await _currentServer!.execute(
+        sendtxid = await _currentServer!.run(
             '''./komodo/src/komodo-cli -ac_name=MCL marmarareceive $pubKey $amountOrBatonid '{"avalcount":"0"}' ''');
       } else {
-        sendtxid = await _currentServer!.execute(
+        sendtxid = await _currentServer!.run(
             '''./komodo/src/komodo-cli -ac_name=MCL marmarareceive $pubKey $amountOrBatonid MARMARA $matures '{"avalcount":"0"}' ''');
       }
 
-      var rawSendTxId = sendtxid.replaceAll("\n", "").replaceAll("\r", "");
+      var rawSendTxId =
+          utf8.decode(sendtxid).replaceAll("\n", "").replaceAll("\r", "");
       Map jsonHex = jsonDecode(rawSendTxId);
       if (jsonHex['result'] == 'success') {
-        var sendOnayi = await _currentServer!.execute(
+        var sendOnayi = await _currentServer!.run(
             "$pathCli${commands['sendrawtransaction']} '${jsonHex['hex']}'");
-        print(sendOnayi);
+        print(utf8.decode(sendOnayi));
         if (sendOnayi.length > 2) {
-          return sendOnayi.replaceAll("\n", "").replaceAll("\r", "");
+          return utf8
+              .decode(sendOnayi)
+              .replaceAll("\n", "")
+              .replaceAll("\r", "");
         }
       }
 
@@ -542,8 +552,7 @@ class SshService {
 
   Future<void> startBlockChain() async {
     try {
-      String gelen =
-          await _currentServer!.execute("$pathCli${commands['addnode']}\n");
+      var gelen = await _currentServer!.run("$pathCli${commands['addnode']}\n");
       print(gelen);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
@@ -551,29 +560,29 @@ class SshService {
   }
 
   Future<String> getInfoBlockChain() async {
-    String result;
+    var result;
     try {
-      result = await _currentServer!.execute("$pathCli${commands['getinfo']}");
-      print(result);
+      result = await _currentServer!.run("$pathCli${commands['getinfo']}");
+      // print(result);
       if (result == "") {
         return "loading block index";
       }
-      final contactsBox = Hive.box('sunucular');
+      final contactsBox = Hive.box('servers');
       final mclBlockChain =
           contactsBox.getAt(mclSelectedBlocChainIndex!) as Chain;
-      mclBlockChain.getinfo = jsonDecode(result);
+      mclBlockChain.getinfo = jsonDecode(utf8.decode(result));
       mclBlockChain.refreshTime = DateTime.now();
 
       var resultStaking =
-          await _currentServer!.execute("$pathCli${commands['getgenerate']}");
-      mclBlockChain.getGenerate = jsonDecode(resultStaking);
+          await _currentServer!.run("$pathCli${commands['getgenerate']}");
+      mclBlockChain.getGenerate = jsonDecode(utf8.decode(resultStaking));
 
       contactsBox.putAt(mclSelectedBlocChainIndex!, mclBlockChain);
-      if (jsonDecode(result)['pubkey'] != null) {
-        pubKey = jsonDecode(result)['pubkey'];
+      if (jsonDecode(utf8.decode(result))['pubkey'] != null) {
+        pubKey = jsonDecode(utf8.decode(result))['pubkey'];
       }
 
-      return result;
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -588,20 +597,20 @@ class SshService {
       setString = 'setgenerate0f';
     }
     try {
-      final contactsBox = Hive.box('sunucular');
+      final contactsBox = Hive.box('servers');
       final mclBlockChain =
           contactsBox.getAt(mclSelectedBlocChainIndex!) as Chain;
       var setStakingTrue =
-          await _currentServer!.execute("$pathCli${commands[setString]}");
+          await _currentServer!.run("$pathCli${commands[setString]}");
       print(setStakingTrue);
 
       var resultStaking =
-          await _currentServer!.execute("$pathCli${commands['getgenerate']}");
-      mclBlockChain.getGenerate = jsonDecode(resultStaking);
+          await _currentServer!.run("$pathCli${commands['getgenerate']}");
+      mclBlockChain.getGenerate = jsonDecode(utf8.decode(resultStaking));
 
       contactsBox.putAt(mclSelectedBlocChainIndex!, mclBlockChain);
 
-      return resultStaking;
+      return utf8.decode(resultStaking);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';
@@ -613,9 +622,9 @@ class SshService {
       {int count = 10, int start = 0}) async {
     try {
       var result = await _currentServer!
-          .execute("$pathCli${commands['listtransactions']} $count $start");
+          .run("$pathCli${commands['listtransactions']} $count $start");
       print(result);
-      return result;
+      return utf8.decode(result);
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
       return '';

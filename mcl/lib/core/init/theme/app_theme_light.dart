@@ -19,18 +19,23 @@ class AppThemeLight extends AppTheme with ILightTheme {
         colorScheme: _appColorScheme,
         textTheme: textTheme(),
         appBarTheme: ThemeData.light().appBarTheme.copyWith(
-            brightness: Brightness.light, color: Colors.transparent, elevation: 0, iconTheme: IconThemeData(color: Colors.black87, size: 21)),
+            // brightness: Brightness.light,
+            color: Colors.transparent,
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black87, size: 21)),
         inputDecorationTheme: InputDecorationTheme(
             focusColor: Colors.black12,
             labelStyle: TextStyle(),
             fillColor: Colors.white,
             contentPadding: EdgeInsets.zero,
             filled: true,
-            enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 0.3)),
+            enabledBorder:
+                OutlineInputBorder(borderSide: BorderSide(width: 0.3)),
             // border: OutlineInputBorder(borderSide: BorderSide(width: 0.3)),
             focusedBorder: OutlineInputBorder()),
         scaffoldBackgroundColor: Color(0xfff1f3f8),
-        floatingActionButtonTheme: ThemeData.light().floatingActionButtonTheme.copyWith(),
+        floatingActionButtonTheme:
+            ThemeData.light().floatingActionButtonTheme.copyWith(),
         buttonTheme: ThemeData.light().buttonTheme.copyWith(
               colorScheme: ColorScheme.light(
                 onError: Color(0xffFF2D55),
@@ -50,17 +55,18 @@ class AppThemeLight extends AppTheme with ILightTheme {
   }
 
   TextTheme textTheme() {
-    return ThemeData.light()
-        .textTheme
-        .copyWith(headline1: textThemeLight!.headline1, headline2: textThemeLight!.headline2, overline: textThemeLight!.headline3);
+    return ThemeData.light().textTheme.copyWith(
+        displayLarge: textThemeLight!.headline1,
+        displayMedium: textThemeLight!.headline2,
+        labelSmall: textThemeLight!.headline3);
   }
 
   ColorScheme get _appColorScheme {
     return ColorScheme(
         primary: colorSchemeLight!.black,
-        primaryVariant: Colors.white, //xx
+        // primaryVariant: Colors.white, //xx
         secondary: Colors.green,
-        secondaryVariant: colorSchemeLight!.azure,
+        // secondaryVariant: colorSchemeLight!.azure,
         surface: Colors.blue, //xx
         background: Color(0xfff6f9fc), //xx
         error: Colors.red[900]!,

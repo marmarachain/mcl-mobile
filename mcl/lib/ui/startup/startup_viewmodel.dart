@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:mcl/app/app.locator.dart';
 import 'package:mcl/app/app.logger.dart';
@@ -13,7 +15,7 @@ class StartUpViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
 
   final newVersion = NewVersion(
-    // iOSId: 'com.google.Vespa',
+    // iOSId: 'com.mcl.mobile.mcl',
     androidId: 'com.mcl.mobile.mcl',
   );
 
@@ -21,11 +23,11 @@ class StartUpViewModel extends BaseViewModel {
 
   advancedStatusCheck(NewVersion newVersion, BuildContext context) async {
     final status = await newVersion.getVersionStatus();
-    print(status!.releaseNotes);
-    print(status.appStoreLink);
-    print(status.localVersion);
-    print(status.storeVersion);
-    print(status.canUpdate.toString());
+    inspect(status!.releaseNotes);
+    inspect(status.appStoreLink);
+    inspect(status.localVersion);
+    inspect(status.storeVersion);
+    inspect(status.canUpdate.toString());
     newVersion.showUpdateDialog(
       context: context,
       versionStatus: status,
@@ -48,7 +50,7 @@ class StartUpViewModel extends BaseViewModel {
   Future<void> startAnimationOnView(context) async {
     // if (context == null) return;
     await Future.delayed(durationLow);
-    advancedStatusCheck(newVersion, context);
+    // advancedStatusCheck(newVersion, context);
     _changeFirstInit();
   }
 }

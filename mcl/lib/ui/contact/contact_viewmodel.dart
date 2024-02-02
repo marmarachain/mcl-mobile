@@ -1,10 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:mcl/app/app.locator.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/models/person.dart';
-import 'package:mcl/ui/contact/new_person.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:mcl/core/extension/string_extension.dart';
@@ -12,23 +13,6 @@ import 'package:mcl/core/extension/string_extension.dart';
 class ContactViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
-
-  // Function? deneme(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (_) {
-  //       return GestureDetector(
-  //         onTap: () {},
-  //         child: NewPerson(addNewPerson),
-  //         behavior: HitTestBehavior.opaque,
-  //       );
-  //     },
-  //   );
-  // }
-
-  void deneme() {
-    print('APP BAR BUTTON');
-  }
 
   void addNewPerson(
       int kisiIndex, String txName, String txWalletAddress, String txpubKey) {
@@ -38,7 +22,7 @@ class ContactViewModel extends BaseViewModel {
       pubKey: txpubKey,
       // id: DateTime.now().toString(),
     );
-    final contactsBox = Hive.box('kisiler');
+    final contactsBox = Hive.box('contacts');
     if (kisiIndex == -1) {
       contactsBox.add(newTx);
     } else {
@@ -61,17 +45,16 @@ class ContactViewModel extends BaseViewModel {
   }
 
   Future<void> deletePerson(int indexPerson) async {
-    // kisilerBox.deleteAt(index)
-    final contactsBox = Hive.box('kisiler');
+    final contactsBox = Hive.box('contacts');
     var kisi = contactsBox.getAt(indexPerson);
 
     var onay = await _dialogService.showConfirmationDialog(
-        title: 'Kişi Silme',
+        title: LocaleKeys.contact_delete.locale,
         description:
-            '${(kisi as Person).isim} \nSilmek istediğinize emin misiniz?',
+            '${(kisi as Person).isim} \n${LocaleKeys.contact_isDelete.locale}',
         cancelTitle: '${LocaleKeys.common_no.locale}',
         confirmationTitle: '${LocaleKeys.common_yes.locale}');
-    print(onay!.confirmed.toString());
+    inspect(onay!.confirmed.toString());
     if (onay.confirmed) {
       contactsBox.deleteAt(indexPerson);
     }

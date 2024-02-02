@@ -112,8 +112,10 @@ class _IssuerSearchRefreshState extends State<IssuerSearchRefresh> {
                             : '${LocaleKeys.credit_SelectedDate.locale}: ${DateFormat.yMd().format(_selectedDate!)}',
                       ),
                     ),
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
+                    TextButton(
+                      // textColor: Theme.of(context).primaryColor,
+                      style: TextButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor),
                       child: Text(
                         '${LocaleKeys.credit_SelectDate.locale}',
                         style: TextStyle(
@@ -130,7 +132,7 @@ class _IssuerSearchRefreshState extends State<IssuerSearchRefresh> {
               ElevatedButton(
                 child: Text('${LocaleKeys.common_refresh.locale}'),
                 style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                     textStyle: TextStyle(color: Colors.black)),
                 onPressed: _submitData,
               ),

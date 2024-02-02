@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
@@ -11,7 +13,6 @@ import 'package:mcl/widgets/new_transaction.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:mcl/core/extension/string_extension.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:connectivity/connectivity.dart';
 
 class HomeViewModel extends BaseViewModel {
@@ -28,7 +29,7 @@ class HomeViewModel extends BaseViewModel {
   set pageIndex(int value) {
     _pageIndex = value;
     currentPosition = value.toDouble();
-    print("PAGEINDEX SELECTED: $value");
+    inspect("PAGEINDEX SELECTED: $value");
     notifyListeners();
   }
 
@@ -57,7 +58,7 @@ class HomeViewModel extends BaseViewModel {
     return _selectedLanguage;
   }
 
-  int get ekliSunucuSayisi => Hive.box('sunucular').length;
+  int get ekliSunucuSayisi => Hive.box('servers').length;
 
   Future<void> languageChange() async {
     await Future.delayed(Duration(seconds: 2));
@@ -148,7 +149,7 @@ class HomeViewModel extends BaseViewModel {
       port: txPort,
       // id: DateTime.now().toString(),
     );
-    final contactsBox = Hive.box('sunucular');
+    final contactsBox = Hive.box('servers');
     if (serverIdex == -1) {
       contactsBox.add(newTx);
     } else {
@@ -211,8 +212,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> deleteServer(int indexServer) async {
-    // kisilerBox.deleteAt(index)
-    final serverBox = Hive.box('sunucular');
+    final serverBox = Hive.box('servers');
     var server = serverBox.getAt(indexServer);
 
     var onay = await _dialogService.showConfirmationDialog(

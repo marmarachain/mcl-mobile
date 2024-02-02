@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mcl/core/init/lang/locale_keys.g.dart';
-import 'package:mcl/core/extension/string_extension.dart';
 
 class CommonBottomSheet extends StatefulWidget {
   final Function addTx;
@@ -16,8 +14,6 @@ class CommonBottomSheet extends StatefulWidget {
 class _CommonBottomSheetState extends State<CommonBottomSheet> {
   final _titleController = TextEditingController();
 
-  // DateTime? _selectedDate;
-
   void _submitData() {
     if (_titleController.text.isEmpty) {
       return;
@@ -28,7 +24,7 @@ class _CommonBottomSheetState extends State<CommonBottomSheet> {
       return;
     }
 
-    // enteredTitle yerine privateKey olacak
+    // will be privateKey instead of enteredTitle
     widget.addTx(
       context,
       enteredTitle,

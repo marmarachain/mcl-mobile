@@ -85,12 +85,16 @@
       "addressSelect":"اختر العنوان",
       "testmaxthree":"لا يمكن إضافته إلى أكثر من 3 في إصدار الاختبار!",
       "approve":"يوافق",
-      "copiedToClipboard":"نسخ إلى الحافظة"
+      "copiedToClipboard":"نسخ إلى الحافظة",
+      "list": "قائمة",
+      "filter":"منقي"
     },
     "contact":{
       "name":"جهات الاتصال",
       "yet":"لم تقم بإضافة أي شخص حتى الآن!",
-      "address":"عنوان"
+      "address":"عنوان",
+      "delete": "حذف الشخص",
+      "isDelete": "هل أنت متأكد أنك تريد حذف؟"
     },
     "bootstrap":{
       "name":"تحميل bootstrap"

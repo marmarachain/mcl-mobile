@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:mcl/app/app.locator.dart';
-import 'package:mcl/core/components/text/locale_text.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/models/chain.dart';
 import 'package:mcl/ui/mcl_detail/mcl_detail_viewmodel.dart';
@@ -54,18 +51,13 @@ class WalletView extends StatelessWidget {
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).focusColor,
+                          backgroundColor: Theme.of(context).focusColor,
                         ),
                         onPressed: () {
                           FocusScope.of(context).unfocus();
                           viewmodel.cuzdanDegerAktifleme();
                         },
                         child: Text('${LocaleKeys.wallet_lock.tr()}'))
-                    // IconButton(
-                    //     icon: Icon(Icons.access_alarm),
-                    //     onPressed: () {
-                    //       viewmodel.cuzdanDegerAktifleme();
-                    //     })
                   ],
                 ),
                 SizedBox(
@@ -94,18 +86,13 @@ class WalletView extends StatelessWidget {
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).focusColor,
+                          backgroundColor: Theme.of(context).focusColor,
                         ),
                         onPressed: () {
                           FocusScope.of(context).unfocus();
                           viewmodel.cuzdanDegerDeaktifleme();
                         },
                         child: Text('${LocaleKeys.wallet_open.tr()}')),
-                    // IconButton(
-                    //     icon: Icon(Icons.access_alarm),
-                    //     onPressed: () {
-                    //       viewmodel.cuzdanDegerDeaktifleme();
-                    //     })
                   ],
                 ),
                 SizedBox(
@@ -116,12 +103,8 @@ class WalletView extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 ValueListenableBuilder<Box<dynamic>>(
-                    valueListenable: Hive.box('sunucular').listenable(),
+                    valueListenable: Hive.box('servers').listenable(),
                     builder: (context, mclBlocBox, widget) {
-                      // jsonDecode(box.get('result',
-                      //             defaultValue:
-                      //                 "beklemede"))['myPubkeyNormalAmount']
-                      //         .toString()
                       var mclBlocChain =
                           Chain(address: '', port: 22, title: '', username: '');
                       if (mclBlocBox.isNotEmpty) {
@@ -159,36 +142,6 @@ class WalletView extends StatelessWidget {
                                                 ':     ${mclBlocChain.marmarainfo!['myActivatedAmount']}')
                                       ]),
                                 ),
-                                // SizedBox(
-                                //   height: 30,
-                                // ),
-                                // // LocaleText(value: LocaleKeys.stats_activate),
-
-                                // RichText(
-                                //   text: TextSpan(
-                                //       style: TextStyle(fontSize: 16),
-                                //       text: LocaleKeys.stats_inloop.tr(),
-                                //       children: [
-                                //         TextSpan(
-                                //             text:
-                                //                 ':     ${mclBlocChain.marmarainfo!['TotalLockedInLoop']}')
-                                //       ]),
-                                // ),
-                                // SizedBox(
-                                //   height: 30,
-                                // ),
-                                // // LocaleText(value: LocaleKeys.stats_activate),
-
-                                // RichText(
-                                //   text: TextSpan(
-                                //       style: TextStyle(fontSize: 16),
-                                //       text: LocaleKeys.stats_bearerLoops.tr(),
-                                //       children: [
-                                //         TextSpan(
-                                //             text:
-                                //                 ':     ${mclBlocChain.marmarainfo!['totalamount']}')
-                                //       ]),
-                                // ),
                               ],
                             );
                     }),

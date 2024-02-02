@@ -1,8 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:hive/hive.dart';
-import 'package:mcl/core/components/text/locale_text.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/models/chain.dart';
 import 'package:mcl/ui/home/home_viewmodel.dart';
@@ -59,7 +57,7 @@ class HomeView extends StatelessWidget {
             )
           ],
           child: ValueListenableBuilder<Box<dynamic>>(
-            valueListenable: Hive.box('sunucular').listenable(),
+            valueListenable: Hive.box('servers').listenable(),
             builder: (context, sunucularBox, widget) {
               var mclBlocChain =
                   Chain(address: '', port: 22, title: '', username: '');
@@ -227,16 +225,6 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //     bottom: 16,
-                    //   ),
-                    // ),
-
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [MclText.body('fdsf'), MclText.body('fdsf')],
-                    // ),
                     Expanded(
                       flex: 6,
                       child: Container(
@@ -246,18 +234,7 @@ class HomeView extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     LocaleKeys.home_addServer.locale,
-                                    // style: Theme.of(context).textTheme.title,
                                   ),
-                                  // SizedBox(
-                                  //   height: 20,
-                                  // ),
-                                  // Container(
-                                  //     // height: screenHeightPercentage(context,
-                                  //     //     percentage: 0.50),
-                                  //     child: Image.asset(
-                                  //   'assets/images/waiting.png',
-                                  //   fit: BoxFit.cover,
-                                  // )),
                                 ],
                               )
                             : ListView.separated(
@@ -358,19 +335,6 @@ class HomeView extends StatelessWidget {
                                                               ),
                                                             )
                                                           : SizedBox(),
-                                                      // GestureDetector(
-                                                      //   onTap: () {
-                                                      //     print('test');
-                                                      //     model
-                                                      //         .passwordServerEnter(
-                                                      //             context,
-                                                      //             index);
-                                                      //   },
-                                                      //   child: Icon(
-                                                      //     Icons.arrow_right,
-                                                      //     color: Colors.green,
-                                                      //   ),
-                                                      // )
                                                     ],
                                                   ),
                                                 ],
@@ -386,7 +350,9 @@ class HomeView extends StatelessWidget {
                                               Icons.arrow_right,
                                               size: 40,
                                             ),
-                                            color: Theme.of(context).errorColor,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
                                             onPressed: () {
                                               model.pageIndex = index;
                                               model.passwordServerEnter(
@@ -395,22 +361,6 @@ class HomeView extends StatelessWidget {
                                             }),
                                       ),
                                     ),
-                                    // actions: <Widget>[
-                                    //   IconSlideAction(
-                                    //     caption: 'Adres',
-                                    //     color: Colors.blue,
-                                    //     icon: Icons.archive,
-                                    //     onTap: () =>
-                                    //         sunucularBox.deleteAt(index),
-                                    //   ),
-                                    //   IconSlideAction(
-                                    //     caption: 'Pubkey',
-                                    //     color: Colors.indigo,
-                                    //     icon: Icons.share,
-                                    //     onTap: () =>
-                                    //         sunucularBox.deleteAt(index),
-                                    //   ),
-                                    // ],
                                     secondaryActions: <Widget>[
                                       IconSlideAction(
                                         caption:

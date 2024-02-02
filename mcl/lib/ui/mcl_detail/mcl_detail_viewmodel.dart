@@ -1,14 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 // import 'dart:ui';
 
+import 'package:dartssh2/dartssh2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mcl/api/ssh_connect_api.dart';
 import 'package:mcl/app/app.locator.dart';
 import 'package:mcl/app/app.logger.dart';
 import 'package:mcl/app/app.router.dart';
@@ -16,16 +16,11 @@ import 'package:mcl/core/constants/enums/mcl_loop_enum.dart';
 import 'package:mcl/models/person.dart';
 import 'package:mcl/models/chain.dart';
 import 'package:mcl/services/ssh_service.dart';
-import 'package:mcl/utils/ssh.dart';
+import 'package:mcl/widgets/credit_endorser_search.dart';
 import 'package:mcl/widgets/credit_issuer_search.dart';
-import 'package:mcl/widgets/kredi_ciranta_search.dart';
-import 'package:mcl/widgets/new_transaction.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:stacked/stacked.dart';
 
-import 'package:collection/collection.dart';
-
-import 'package:mcl/utils/commands.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:mcl/core/extension/string_extension.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
@@ -33,7 +28,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
 import 'package:universal_html/html.dart' show AnchorElement;
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:universal_html/js.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 
 class MclDetailViewModel extends BaseViewModel {
@@ -41,7 +35,7 @@ class MclDetailViewModel extends BaseViewModel {
 
   // final _sshService = locator<SshConnectApi>();
 
-  final log = getLogger('KrediViewModel');
+  final log = getLogger('CreditViewModel');
 
   final _sshService = locator<SshService>();
   final _bottomSheetService = locator<BottomSheetService>();
@@ -80,11 +74,10 @@ class MclDetailViewModel extends BaseViewModel {
   List<Person> _adresDefteriListesi = [];
   List<Person> get adresDefteriListesi => _adresDefteriListesi;
   String alAdresDefteri(kisiKaydi) {
-    Box<dynamic> contactsBox = Hive.box<List<Person>>('kisiler');
+    Box<dynamic> contactsBox = Hive.box<List<Person>>('contacts');
     _adresDefteriListesi = (contactsBox as List<Person>);
-    // print("defter sayısı---***********------${_adresDefteriListesi.length}");
     contactsBox.values.forEach((kisiDetay) {
-      print((kisiDetay as Person).isim);
+      inspect((kisiDetay as Person).isim);
       // if ((kisiDetay as Person).pubKey == kisiKaydi) {
       //   return "";
       // }
@@ -98,19 +91,19 @@ class MclDetailViewModel extends BaseViewModel {
   }
 
   void defterdonusumu() {
-    Box<dynamic> contactsBox = Hive.box('kisiler');
+    Box<dynamic> contactsBox = Hive.box('contacts');
     _adresDefteriListesi = [];
     contactsBox.values.forEach((kisiDetay) {
       _adresDefteriListesi.add(Person(
           isim: (kisiDetay as Person).isim,
-          cuzdanAdresi: (kisiDetay as Person).cuzdanAdresi,
-          pubKey: (kisiDetay as Person).pubKey));
+          cuzdanAdresi: (kisiDetay).cuzdanAdresi,
+          pubKey: (kisiDetay).pubKey));
     });
 
     print(_adresDefteriListesi.length);
   }
 
-  // Ortak metotlar start
+  // Common metods start
   void panoyaKopyalandi(BuildContext ctx, String copyText, String messageDown) {
     Clipboard.setData(ClipboardData(text: copyText));
     ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
@@ -118,7 +111,7 @@ class MclDetailViewModel extends BaseViewModel {
         content: Text(
             '$messageDown ${LocaleKeys.common_copiedToClipboard.locale}')));
   }
-  // Ortak metotlar finish
+  // Common metods finish
 
   String? hostValue;
   int? portValue;
@@ -260,8 +253,8 @@ class MclDetailViewModel extends BaseViewModel {
                 ));
       } else {
         _dialogService.showDialog(
-            title: 'Deaktifle Sonucu',
-            description: 'Başarısız, daha sonra tekrar deneyin!');
+            title: LocaleKeys.wallet_amountDeactivate.locale,
+            description: LocaleKeys.wallet_failed.locale);
       }
     }
     setBusy(false);
@@ -273,8 +266,8 @@ class MclDetailViewModel extends BaseViewModel {
   }
 
   Future<void> onClickIssuerRefresh(int afterDate) async {
-    print(afterDate);
-    print('onClickIssuerRefresh');
+    inspect(afterDate);
+    inspect('onClickIssuerRefresh');
 
     String? result;
     try {
@@ -289,7 +282,7 @@ class MclDetailViewModel extends BaseViewModel {
       } else if ((jsonDecode(result) as List).length > 0) {
         issuerLoop = [];
         (jsonDecode(result) as List).asMap().forEach((index, element) async {
-          print(element);
+          inspect(element);
           // holderLoopDetail[element] = {};
           var startTime = DateTime(2020, 01, 24, 10, 15);
           var fiftyDaysFromNow =
@@ -314,7 +307,7 @@ class MclDetailViewModel extends BaseViewModel {
             description: '${LocaleKeys.credit_issuer_maturesNoRequest.locale}');
       }
     } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
+      inspect('Error: ${e.code}\nError Message: ${e.message}');
     }
     setBusy(false);
   }
@@ -356,7 +349,6 @@ class MclDetailViewModel extends BaseViewModel {
       selectedDate = pickedDate;
       notifyListeners();
     });
-    print('...');
   }
 
   Future<void> openContactBook(ctx) async {
@@ -364,7 +356,7 @@ class MclDetailViewModel extends BaseViewModel {
       context: ctx,
       builder: (BuildContext context) {
         return ValueListenableBuilder<Box<dynamic>>(
-            valueListenable: Hive.box('kisiler').listenable(),
+            valueListenable: Hive.box('contacts').listenable(),
             builder: (context, kisilerBox, widget) {
               return Container(
                 child: Column(
@@ -474,10 +466,10 @@ class MclDetailViewModel extends BaseViewModel {
     DateTime bearerDateTwo = new DateTime(selectedDate!.year,
         selectedDate!.month, selectedDate!.day, now.hour, now.minute);
     var diffbearer = bearerDateTwo.difference(bearerDate).inMinutes;
-    print(bearerDate);
-    print(bearerDateTwo);
-    print("dakika farkı: $diffbearer");
-    print(accept!.confirmed.toString());
+    inspect(bearerDate);
+    inspect(bearerDateTwo);
+    inspect("minute difference: $diffbearer");
+    inspect(accept!.confirmed.toString());
     if (accept.confirmed) {
       String sendDogrulama = await _sshService.creditBearerRequest(
           bearerPubKeyController.text,
@@ -588,13 +580,9 @@ class MclDetailViewModel extends BaseViewModel {
 
   Future<void> _addNewTransaction(
       int txTimeFrom, int txTimeTo, double minAmount, double maxAmount) async {
-    print(txTimeFrom);
-    print(txTimeTo);
-    print(minAmount);
-    print(maxAmount);
     setBusy(true);
     // notifyListeners();
-    print('onClickCirantaSearch');
+    inspect('onClickCirantaSearch');
 
     String? result;
     try {
@@ -606,7 +594,6 @@ class MclDetailViewModel extends BaseViewModel {
       if (jsonDecode(result)['holder'] != null) {
         cirantaLoop = [];
         jsonDecode(result)['issuances'].asMap().forEach((index, element) async {
-          print(element);
           holderLoopDetail[element] = {};
           cirantaLoop.add(CirantaLoop(
               isExpanded: false, id: index, header: element, body: ''));
@@ -620,14 +607,13 @@ class MclDetailViewModel extends BaseViewModel {
             description: '${LocaleKeys.common_errorCreated.locale}');
       }
     } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
+      inspect('Error: ${e.code}\nError Message: ${e.message}');
     }
     setBusy(false);
   }
 
-  Future<void> acayipNedir() async {
-    print("acayip start");
-    final mclBox = Hive.box('sunucular');
+  Future<void> endorderCreditCheck() async {
+    final mclBox = Hive.box('servers');
     final mclBlockChain =
         mclBox.getAt(_sshService.mclSelectedBlocChainIndex!) as Chain;
     var detayliCirantaKredileri = mclBlockChain.marmaraholderloopsdetail!;
@@ -636,7 +622,6 @@ class MclDetailViewModel extends BaseViewModel {
         (String num) async {
       await onClickCirantaDonguDetay(num);
     });
-    print("acayip finish");
   }
 
   Future<void> createExcel() async {
@@ -736,7 +721,7 @@ class MclDetailViewModel extends BaseViewModel {
           builder: (_) {
             return GestureDetector(
               onTap: () {},
-              child: CirantaSearchRefresh(_addNewTransaction),
+              child: EndorserSearchRefresh(_addNewTransaction),
               behavior: HitTestBehavior.opaque,
             );
           },
@@ -892,102 +877,6 @@ class MclDetailViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<String> getCmdMcl(ctx, cmd, pubKey) async {
-    print('baglantı kuruluyor...');
-    var test = await client!
-        .execute("./komodo/src/komodo-cli -ac_name=MCL $cmd $pubKey");
-    print(test);
-    if (test != null) {
-      // await _bottomSheetService.showBottomSheet(title: test);
-      showModalBottomSheet(
-        context: ctx,
-        builder: (_) {
-          return GestureDetector(
-            onTap: () {},
-            child: Wrap(
-              children: [
-                Text(test),
-                IconButton(icon: Icon(Icons.copy), onPressed: () {})
-              ],
-            ),
-            behavior: HitTestBehavior.opaque,
-          );
-        },
-      );
-    }
-    return test;
-  }
-
-  Future<void> onClickCmd(String passServer, String command) async {
-    setBusy(true);
-
-    final dashboardBox = Hive.box('dashboard');
-    int indexServer = dashboardBox.get('selected_server_index');
-
-    final sunucularBox = Hive.box('sunucular');
-    final sunucu = sunucularBox.getAt(indexServer) as Chain;
-
-    hostValue = sunucu.address;
-    portValue = sunucu.port;
-    usernameValue = sunucu.title;
-    passwordValue = passServer;
-    notifyListeners();
-
-    client = new SSHClient(
-      host: hostValue!,
-      port: portValue!,
-      username: usernameValue!,
-      passwordOrKey: passwordValue,
-    );
-
-    String result;
-    try {
-      result = await client!.connect();
-      if (result == "session_connected") {
-        result = await client!.execute(command);
-        final dashboardBox = Hive.box('dashboard');
-        dashboardBox.put('sunucu1', result);
-        adresler =
-            (jsonDecode(result) as List).map((e) => e.toString()).toList();
-        print('ADRESLER');
-        print(adresler);
-
-        var test = await client!
-            .execute("./komodo/src/komodo-cli -ac_name=MCL getinfo");
-        print(test);
-        _sshService.pubKey = jsonDecode(test)['pubkey'];
-
-        adresler.asMap().forEach((index, element) async {
-          result = await client!.connect();
-          var test = await client!.execute(
-              "./komodo/src/komodo-cli -ac_name=MCL validateaddress $element");
-          print(test);
-          print(element);
-          if (jsonDecode(test)['pubkey'] == _sshService.pubKey) {
-            _sshService.walletAddress = element;
-            log.v('Wallet Address: $element');
-          }
-          dataWallet.add(Item(
-              id: index + 1,
-              expandedValue: element,
-              headerValue: jsonDecode(test)['pubkey']));
-          notifyListeners();
-        });
-
-        client!.disconnect();
-      }
-
-      // client.disconnect(); #### TEST AMACLI PASIF #######
-    } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
-    }
-    setBusy(false);
-  }
-
-  void serverServisiBaglantisi() {
-    _sshService.sshdenemebaglanti();
-  }
-
   // @override
   // Future futureToRun() async {
   //   onClickCmd();
@@ -1009,7 +898,7 @@ class MclDetailViewModel extends BaseViewModel {
         maskType: EasyLoadingMaskType.black,
       );
 
-      final contactsBox = Hive.box('sunucular');
+      final contactsBox = Hive.box('servers');
       final mclBlockChain = contactsBox.getAt(secilenBlokZincirIndex) as Chain;
       // result = await _sshService.marmaraInfo();
       if (mclBlockChain.marmarainfo! == null) {
@@ -1066,7 +955,7 @@ class MclDetailViewModel extends BaseViewModel {
             builder: (_) {
               return GestureDetector(
                 onTap: () {},
-                child: CirantaSearchRefresh(onClickCirantaHamilRefresh),
+                child: EndorserSearchRefresh(onClickCirantaHamilRefresh),
                 behavior: HitTestBehavior.opaque,
               );
             },
@@ -1098,7 +987,7 @@ class MclDetailViewModel extends BaseViewModel {
           minAmount: minAmount,
           maxAmount: maxAmount);
       if (jsonDecode(result)['holder'] != null) {
-        final contactsBox = Hive.box('sunucular');
+        final contactsBox = Hive.box('servers');
         final mclBlockChain =
             contactsBox.getAt(_sshService.mclSelectedBlocChainIndex!) as Chain;
         mclBlockChain.marmaraholderloops = jsonDecode(result);
@@ -1115,7 +1004,7 @@ class MclDetailViewModel extends BaseViewModel {
         mclBlockChain.marmaraholderloopsdetail = holderLoopDetail;
         contactsBox.putAt(
             _sshService.mclSelectedBlocChainIndex!, mclBlockChain);
-        await acayipNedir();
+        await endorderCreditCheck();
         await onClickCirantaDonguler();
         notifyListeners();
         await EasyLoading.dismiss();
@@ -1140,11 +1029,11 @@ class MclDetailViewModel extends BaseViewModel {
         status: '${LocaleKeys.home_loading.locale}...',
         maskType: EasyLoadingMaskType.black,
       );
-      final serverInfoBox = Hive.box('sunucular');
+      final serverInfoBox = Hive.box('servers');
       var serverDetail = (serverInfoBox
           .getAt(_sshService.mclSelectedBlocChainIndex!) as Chain);
       if (serverDetail.marmaraholderloops != null) {
-        Box<dynamic> contactsBox = Hive.box('kisiler');
+        Box<dynamic> contactsBox = Hive.box('contacts');
 
         cirantaLoop = [];
         var detayliCirantaKredileri = serverDetail.marmaraholderloopsdetail!;
@@ -1152,13 +1041,12 @@ class MclDetailViewModel extends BaseViewModel {
             .toList()
             .asMap()
             .forEach((index, element) async {
-          // print(element);
           // holderLoopDetail[element] = {};
           var kisiVar = '';
           var kisiPubkey = '';
           contactsBox.values.forEach((kisiDetay) {
             print((kisiDetay as Person).isim);
-            if ((kisiDetay as Person).pubKey ==
+            if ((kisiDetay).pubKey ==
                 ((detayliCirantaKredileri[element]['creditloop'] as List)
                             .length ==
                         1
@@ -1166,7 +1054,7 @@ class MclDetailViewModel extends BaseViewModel {
                         as List)[0]['issuerpk']
                     : (detayliCirantaKredileri[element]['creditloop'] as List)
                         .last['receiverpk'])) {
-              kisiVar = (kisiDetay as Person).isim;
+              kisiVar = (kisiDetay).isim;
               // kisiPubkey = ((detayliCirantaKredileri[element]['creditloop']
               //                 as List)
               //             .length ==
@@ -1231,7 +1119,7 @@ class MclDetailViewModel extends BaseViewModel {
     try {
       // final serverInfoBox = Hive.box('sunucu-info');
       // var holderloopdetail = serverInfoBox.get('marmaraholderloopsdetail');
-      final serverInfoBox = Hive.box('sunucular');
+      final serverInfoBox = Hive.box('servers');
       var serverDetail = (serverInfoBox
           .getAt(_sshService.mclSelectedBlocChainIndex!) as Chain);
       if (true) {
@@ -1239,8 +1127,9 @@ class MclDetailViewModel extends BaseViewModel {
 
         var testsonuc = jsonDecode(result!);
         serverDetail.marmaraholderloopsdetail![batonId] = testsonuc;
-        print("SONUC DEGER ${serverDetail.marmaraholderloopsdetail![batonId]}");
-        // TODO PUT OLANI DENENECEK FAZLA VERİ AKTARIMI OLMAMASI ICIN
+        // print("result value ${serverDetail.marmaraholderloopsdetail![batonId]}");
+        print(batonId);
+        // TODO PUT ONE WILL BE TRYED TO AVOID TOO MUCH DATA TRANSFER
         serverInfoBox.putAt(
             _sshService.mclSelectedBlocChainIndex!, serverDetail);
       }
@@ -1248,6 +1137,7 @@ class MclDetailViewModel extends BaseViewModel {
     } on PlatformException catch (e) {
       print('Error: ${e.code}\nError Message: ${e.message}');
     }
+    return null;
     // setBusy(false);
   }
 

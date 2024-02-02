@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:mcl/core/components/slider/range_price_slider.dart';
 import 'package:mcl/core/components/text/locale_text.dart';
 import 'package:mcl/core/constants/enums/mcl_loop_enum.dart';
@@ -50,13 +51,6 @@ class CreditView extends StatelessWidget {
                         isScrollable: true,
                         unselectedLabelColor: Colors.redAccent,
                         indicatorPadding: EdgeInsets.only(left: 30, right: 30),
-                        // indicator: ShapeDecoration(
-                        //     color: Colors.redAccent,
-                        //     shape: BeveledRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(10),
-                        //         side: BorderSide(
-                        //           color: Colors.redAccent,
-                        //         ))),
                         onTap: (index) {
                           model.tabIndex = index;
                         },
@@ -83,12 +77,6 @@ class CreditView extends StatelessWidget {
                               child: Text(LocaleKeys.credit_endorser_name.tr()),
                             ),
                           ),
-                          // Tab(
-                          //   child: Align(
-                          //     alignment: Alignment.center,
-                          //     child: Text("Döngü Bilgisi"),
-                          //   ),
-                          // ),
                           Tab(
                             child: Align(
                               alignment: Alignment.center,
@@ -98,12 +86,6 @@ class CreditView extends StatelessWidget {
                           ),
                         ]),
                     actions: <Widget>[
-                      // IconButton(
-                      //   icon: Icon(Icons.scanner),
-                      //   onPressed: () {
-                      //     model.denemeModel();
-                      //   },
-                      // ),
                       (!model.switchStateEndorser && model.tabIndex == 2) ||
                               model.tabIndex == 3
                           ? IconButton(
@@ -124,19 +106,9 @@ class CreditView extends StatelessWidget {
                               },
                             )
                           : SizedBox(),
-                      // !model.switchStateEndorser
-                      //     ? IconButton(
-                      //         icon: Icon(Icons.search),
-                      //         onPressed: () {
-                      //           print('KREDI +++');
-                      //           model.startCirantaSearch(context);
-                      //         },
-                      //       )
-                      //     : SizedBox(),
                       IconButton(
                         icon: Icon(Icons.refresh),
                         onPressed: () {
-                          // print('KREDI +++');
                           model.creditCustomRefresh(context);
                         },
                       ),
@@ -151,11 +123,7 @@ class CreditView extends StatelessWidget {
                           tabIssuer(model, context),
                           tabBearer(model, context),
                           tabEndorser(model, context),
-                          // Center(
-                          //   child: Text('Döngü Bilgisi'),
-                          // ),
                           tabActiveLoops(model),
-                          // MclKrediAktifView(zincirPassword: this.zincirPassword)
                         ]),
                 ),
               )
@@ -170,8 +138,6 @@ class CreditView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           if (model.result != null)
-                            // Text(
-                            //     'Barcode Type: ${describeEnum(model.result!.format)}   Data: ${model.result!.code}')
                             MclText.body(
                                 '${LocaleKeys.receivesend_receiveAddress.locale}: ${model.result!.code}')
                           else
@@ -186,14 +152,11 @@ class CreditView extends StatelessWidget {
                                 child: ElevatedButton(
                                     onPressed: () async {
                                       await model.controller?.toggleFlash();
-                                      // setState(() {});
                                     },
                                     child: FutureBuilder(
                                       future:
                                           model.controller?.getFlashStatus(),
                                       builder: (context, snapshot) {
-                                        // Text(
-                                        //     'Flash: ${snapshot.data}');
                                         return Text('Flash');
                                       },
                                     )),
@@ -209,12 +172,9 @@ class CreditView extends StatelessWidget {
                                       future: model.controller?.getCameraInfo(),
                                       builder: (context, snapshot) {
                                         if (snapshot.data != null) {
-                                          // Text(
-                                          //     'Camera facing ${describeEnum(snapshot.data!)}');
                                           return Text(
                                               '${LocaleKeys.receivesend_cameraChange.locale}');
                                         } else {
-                                          // Text('loading');
                                           return Text(
                                               '${LocaleKeys.receivesend_cameraChange.locale}');
                                         }
@@ -254,8 +214,8 @@ class CreditView extends StatelessWidget {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     if (model.result != null) {
-                                      model
-                                          .walletAddressSet(model.result!.code);
+                                      model.walletAddressSet(
+                                          model.result!.code!);
                                     }
 
                                     model.openQrCamera = false;
@@ -341,19 +301,11 @@ class CreditView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Align(
-          //   alignment: Alignment.topLeft,
-          //   child: Text(
-          //     'Cüzdanlarım',
-          //     textAlign: TextAlign.left,
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.only(left: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Text(),
                 model.switchStateEndorser
                     ? LocaleText(
                         value:
@@ -368,33 +320,14 @@ class CreditView extends StatelessWidget {
               ],
             ),
           ),
-          // IconButton(
-          //     icon: Icon(Icons.ac_unit),
-          //     onPressed: () async {
-          //       // model.createExcel();
-          //       model.acayipNedir();
-          //       model.setBusy(true);
-          //       await Future.delayed(Duration(seconds: 4));
-          //       model.setBusy(false);
-          //     }),
-
-          // Text(
-          //   'Hamil Döngüleri ${model.krediCirantaTotalAmount}',
-          //   style: TextStyle(color: Colors.white),
-          // ),
           !model.switchStateEndorser
               ? ExpansionPanelList(
                   expansionCallback: (int index, bool isExpanded) async {
-                    print(isExpanded);
+                    // inspect(isExpanded);
+                    // inspect(model.cirantaLoop[index].body);
                     model.cirantoIsExpande(index, !isExpanded);
                     if (isExpanded == false &&
-                        model.cirantaLoop[index].body == '') {
-                      print(model.cirantaLoop[index].header);
-
-                      var gelen = await model.onClickCirantaDonguDetay(
-                          model.cirantaLoop[index].header!);
-                      print(gelen);
-                    }
+                        model.cirantaLoop[index].body == '') {}
                   },
                   children: model.cirantaLoop.map((CirantaLoop item) {
                     return ExpansionPanel(
@@ -447,16 +380,12 @@ class CreditView extends StatelessWidget {
                     )
                   : ExpansionPanelList(
                       expansionCallback: (int index, bool isExpanded) async {
-                        print(isExpanded);
+                        inspect(isExpanded);
                         model.issuerIsExpanded(index, !isExpanded);
                         if (isExpanded == false &&
                             model.endorsementRequestList[index].txid == '') {
-                          print(
+                          inspect(
                               model.endorsementRequestList[index].creationtxid);
-
-                          // var gelen = await model.onClickCirantaDonguDetay(
-                          //     this.zincirPassword!, model.endorsementRequestList[index].id!);
-                          // print(gelen);
                         }
                       },
                       children:
@@ -518,11 +447,6 @@ class CreditView extends StatelessWidget {
                 SizedBox(
                   height: 8,
                 ),
-                // IconButton(
-                //     icon: Icon(Icons.ac_unit),
-                //     onPressed: () async {
-                //       model.onClickIssuerRefresh(0);
-                //     }),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -536,15 +460,11 @@ class CreditView extends StatelessWidget {
                 ),
                 ExpansionPanelList(
                   expansionCallback: (int index, bool isExpanded) async {
-                    print(isExpanded);
+                    inspect(isExpanded);
                     model.issuerIsExpanded(index, !isExpanded);
                     if (isExpanded == false &&
                         model.issuerLoop[index].txid == '') {
-                      print(model.issuerLoop[index].creationtxid);
-
-                      // var gelen = await model.onClickCirantaDonguDetay(
-                      //     this.zincirPassword!, model.issuerLoop[index].id!);
-                      // print(gelen);
+                      inspect(model.issuerLoop[index].creationtxid);
                     }
                   },
                   children: model.issuerLoop.map((IssuerLoop item) {
@@ -607,14 +527,6 @@ class CreditView extends StatelessWidget {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  // Align(
-                  //   alignment: Alignment.topLeft,
-                  //   child: Text(
-                  //     'Cüzdanlarım',
-                  //     textAlign: TextAlign.left,
-                  //   ),
-                  // ),
-
                   ExpansionPanelList.radio(
                     initialOpenPanelValue: 1,
                     children: model.dataLoop
@@ -631,16 +543,6 @@ class CreditView extends StatelessWidget {
                                   Text(item.id.toString()),
                                   Spacer(),
                                   Text(item.myAmountLockedInLoopValue),
-                                  // Row(
-                                  //   children: [
-                                  //     IconButton(
-                                  //         icon: Icon(Icons.copy),
-                                  //         onPressed: () {}),
-                                  //     IconButton(
-                                  //         icon: Icon(Icons.copy),
-                                  //         onPressed: () {})
-                                  //   ],
-                                  // )
                                 ],
                               ),
                             );
@@ -648,16 +550,7 @@ class CreditView extends StatelessWidget {
                           body: ListTile(
                               title: Text(item.loopAddressValue),
                               subtitle: Text(item.txBatonValue),
-                              // trailing: Row(
-                              //   children: [
-                              //     Icon(Icons.delete),
-                              //     Icon(Icons.keyboard)
-                              //   ],
-                              // ),
-                              onTap: () {
-                                // _data
-                                //     .removeWhere((Item currentItem) => item == currentItem);
-                              }));
+                              onTap: () {}));
                     }).toList(),
                   ),
                 ],
@@ -693,7 +586,7 @@ class CreditView extends StatelessWidget {
                 // height: 350,
                 child: Expanded(
                     child: ValueListenableBuilder<Box<dynamic>>(
-                        valueListenable: Hive.box('kisiler').listenable(),
+                        valueListenable: Hive.box('contacts').listenable(),
                         builder: (context, kisilerBox, widget) {
                           return ListView.builder(
                               itemCount: kisilerBox.length,
@@ -712,16 +605,13 @@ class CreditView extends StatelessWidget {
                                                 backgroundColor: Colors.grey))
                                       ])),
                                   subtitle: Text(kisi.pubKey),
-                                  // trailing: viewModel.selectedContact == index
-                                  //     ? Icon(Icons.check)
-                                  //     : SizedBox(),
                                   onTap: () {
-                                    print(index);
+                                    inspect(index);
                                     viewModel.selectedContact = index;
                                     viewModel.bearerPubKeyController.text =
                                         kisi.pubKey;
                                     viewModel.bearerName = kisi.isim;
-                                    // notifyListeners();
+
                                     Navigator.of(context).pop();
                                     // openContactBook(ctx);
                                     // buildBottomSheetContacts(context, viewModel);
@@ -778,14 +668,10 @@ class CreditView extends StatelessWidget {
                               keyboardType: TextInputType.multiline,
                               minLines: 2,
                               maxLines: 3,
-                              // onChanged: (val) {
-                              //   titleInput = val;
-                              // },
                             )),
                         IconButton(
                             icon: Icon(Icons.contact_mail_rounded),
                             onPressed: () {
-                              // model.openContactBook(context);
                               showModalBottomSheet(
                                   context: context,
                                   builder: (context) =>
@@ -811,9 +697,7 @@ class CreditView extends StatelessWidget {
                         onSubmitted: (_) {
                           FocusScope.of(context).unfocus();
                           model.submitDataRequestCredi(context);
-                        }
-                        // onChanged: (val) => amountInput = val,
-                        ),
+                        }),
                     !model.switchState
                         ? Container(
                             height: 70,
@@ -848,7 +732,7 @@ class CreditView extends StatelessWidget {
                       child: ElevatedButton(
                         child: Text('${LocaleKeys.common_request_credit.tr()}'),
                         style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor,
+                            backgroundColor: Theme.of(context).primaryColor,
                             textStyle: TextStyle(color: Colors.black)),
                         onPressed: () {
                           model.submitDataRequestCredi(context);

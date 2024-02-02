@@ -6,14 +6,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
 import 'package:mcl/app/app.locator.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
-import 'package:mcl/models/person.dart';
 import 'package:mcl/models/transaction.dart';
 import 'package:mcl/services/ssh_service.dart';
-import 'package:mcl/ui/contact/new_person.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:mcl/core/extension/string_extension.dart';
-import 'package:mcl/core/extension/int_date_extension.dart';
 
 class TransactionsViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();

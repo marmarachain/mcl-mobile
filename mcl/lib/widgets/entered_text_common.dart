@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/core/extension/string_extension.dart';
 
@@ -66,7 +65,7 @@ class _EnteredTextCommonState extends State<EnteredTextCommon> {
               ElevatedButton(
                 child: Text('${LocaleKeys.home_add.locale}'),
                 style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                     textStyle: TextStyle(color: Colors.black)),
                 onPressed: _submitData,
               ),

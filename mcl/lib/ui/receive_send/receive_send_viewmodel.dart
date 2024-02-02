@@ -161,19 +161,19 @@ class ReceiveSendViewModel extends BaseViewModel {
   List<Person> _adresDefteriListesi = [];
   List<Person> get adresDefteriListesi => _adresDefteriListesi;
   List<Person> alAdresDefteri() {
-    Box<dynamic> contactsBox = Hive.box<List<Person>>('kisiler');
+    Box<dynamic> contactsBox = Hive.box<List<Person>>('contacts');
 
     return (contactsBox as List<Person>);
   }
 
   void defterdonusumu() {
-    Box<dynamic> contactsBox = Hive.box('kisiler');
+    Box<dynamic> contactsBox = Hive.box('contacts');
     _adresDefteriListesi = [];
     contactsBox.values.forEach((kisiDetay) {
       _adresDefteriListesi.add(Person(
           isim: (kisiDetay as Person).isim,
-          cuzdanAdresi: (kisiDetay as Person).cuzdanAdresi,
-          pubKey: (kisiDetay as Person).pubKey));
+          cuzdanAdresi: (kisiDetay).cuzdanAdresi,
+          pubKey: (kisiDetay).pubKey));
     });
 
     print(_adresDefteriListesi.length);

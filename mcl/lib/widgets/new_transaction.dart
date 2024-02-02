@@ -139,7 +139,7 @@ class _NewTransactionState extends State<NewTransaction> {
             ElevatedButton(
               child: Text('${LocaleKeys.home_save.locale}'),
               style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                   textStyle: TextStyle(color: Colors.black)),
               onPressed: _submitData,
             ),

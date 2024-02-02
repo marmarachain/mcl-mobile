@@ -4,41 +4,34 @@ const String FONT_FAMILY = "Poppins";
 
 final ThemeData redTheme = ThemeData(
   fontFamily: FONT_FAMILY,
-  primarySwatch: Colors.red,
   brightness: Brightness.light,
   primaryColor: Color(0xffC20003), //xxx
-  primaryColorBrightness: Brightness.dark,
+  // primaryColorBrightness: Brightness.dark,
   primaryColorLight: Color(0xffffcdd2),
   primaryColorDark: Color(0xffd32f2f),
-  accentColor: Color(0xfff44336),
-  accentColorBrightness: Brightness.dark,
+  // accentColor: Color(0xfff44336),
+  // accentColorBrightness: Brightness.dark,
   canvasColor: Color(0xfffafafa), //XX
-  scaffoldBackgroundColor: Color(0xfffafafa), //xx
-  bottomAppBarColor: Color(0xffffffff),
+  scaffoldBackgroundColor: Color(0xfffafafa),
   cardColor: Color(0xffffffff),
 
   dividerColor: Color(0xffffffff), //XX
   highlightColor: Color(0x66bcbcbc),
   splashColor: Color(0xffE8E8E8),
-  selectedRowColor: Color(0xfff5f5f5),
   unselectedWidgetColor: Color(0x8a000000),
-  disabledColor: Color(0x61000000), //xx
-  buttonColor: Color(0xffe0e0e0),
-  toggleableActiveColor: Color(0xffe53935),
+  disabledColor: Color(0x61000000),
   secondaryHeaderColor: Color(0xffffebee),
-  textSelectionColor: Color(0xffef9a9a),
-  cursorColor: Color(0xff4285f4),
-  textSelectionHandleColor: Color(0xffe57373),
-  backgroundColor: Color(0xffef9a9a),
   toggleButtonsTheme: ToggleButtonsThemeData(
-      fillColor: Color(0xffC20003), textStyle: TextStyle(color: Colors.white), selectedColor: Colors.white),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: Color(0xffC20003)),
+      fillColor: Color(0xffC20003),
+      textStyle: TextStyle(color: Colors.white),
+      selectedColor: Colors.white),
+  floatingActionButtonTheme:
+      FloatingActionButtonThemeData(backgroundColor: Color(0xffC20003)),
 
   dialogBackgroundColor: Color(0xffffffff),
 
   indicatorColor: Color(0xffC20003), //XX
-  hintColor: Color(0x8a000000), //xx
-  errorColor: Color(0xffd32f2f),
+  hintColor: Color(0x8a000000),
   buttonTheme: ButtonThemeData(
     textTheme: ButtonTextTheme.normal,
     minWidth: 88,
@@ -61,9 +54,9 @@ final ThemeData redTheme = ThemeData(
     hoverColor: Color(0x0a000000),
     colorScheme: ColorScheme(
       primary: Color(0xfff44336),
-      primaryVariant: Color(0xffd32f2f),
+      // primaryVariant: Color(0xffd32f2f),
       secondary: Color(0xffC20003), //xx
-      secondaryVariant: Color(0xffd32f2f),
+      // secondaryVariant: Color(0xffd32f2f),
       surface: Color(0xffffffff),
       background: Color(0xffef9a9a),
       error: Color(0xffd32f2f),
@@ -78,84 +71,84 @@ final ThemeData redTheme = ThemeData(
 
   textTheme: TextTheme(
     //XX
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       color: Color(0x8a000000),
       fontSize: 35,
       fontWeight: FontWeight.bold,
       fontStyle: FontStyle.normal,
     ),
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       //XX
       color: Color(0xdd000000),
       fontSize: 30,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline3: TextStyle(
+    displaySmall: TextStyle(
       //XX
       color: Color(0x8a000000),
       fontSize: 25,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline4: TextStyle(
+    headlineMedium: TextStyle(
       //XX
       color: Color(0x8a000000),
       fontSize: 20,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline5: TextStyle(
+    headlineSmall: TextStyle(
       //XX
       color: Color(0xdd000000),
       fontSize: 15,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline6: TextStyle(
+    titleLarge: TextStyle(
       //XX
       color: Color(0xdd000000),
       fontSize: 12,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       color: Color(0xdd000000),
       fontSize: 15,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    bodyText1: TextStyle(
+    bodyLarge: TextStyle(
       color: Color(0xdd000000),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       color: Color(0xdd000000),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    caption: TextStyle(
+    bodySmall: TextStyle(
       color: Color(0x8a000000),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    button: TextStyle(
+    labelLarge: TextStyle(
       color: Color(0xdd000000),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
       color: Color(0xff000000),
       fontSize: 12,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    overline: TextStyle(
+    labelSmall: TextStyle(
       color: Color(0xff000000),
       fontSize: null,
       fontWeight: FontWeight.w400,
@@ -164,84 +157,84 @@ final ThemeData redTheme = ThemeData(
   ),
   primaryTextTheme: TextTheme(
     //XX
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       color: Color(0xfffafafa),
       fontSize: 35,
       fontWeight: FontWeight.bold,
       fontStyle: FontStyle.normal,
     ),
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       //XX
       color: Color(0xfffafafa),
       fontSize: 30,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline3: TextStyle(
+    displaySmall: TextStyle(
       //XX
       color: Color(0xfffafafa),
       fontSize: 25,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline4: TextStyle(
+    headlineMedium: TextStyle(
       //XX
       color: Color(0xfffafafa),
       fontSize: 20,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline5: TextStyle(
+    headlineSmall: TextStyle(
       //XX
       color: Color(0xfffafafa),
       fontSize: 15,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline6: TextStyle(
+    titleLarge: TextStyle(
       //XX
       color: Color(0xfffafafa),
       fontSize: 12,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       color: Color(0xfffafafa),
       fontSize: 15,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    bodyText1: TextStyle(
+    bodyLarge: TextStyle(
       color: Color(0xfffafafa),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       color: Color(0xffffffff),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    caption: TextStyle(
+    bodySmall: TextStyle(
       color: Color(0xb3ffffff),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    button: TextStyle(
+    labelLarge: TextStyle(
       color: Color(0xffffffff),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
       color: Color(0xffffffff),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    overline: TextStyle(
+    labelSmall: TextStyle(
       color: Color(0xffffffff),
       fontSize: null,
       fontWeight: FontWeight.w400,
@@ -425,5 +418,28 @@ final ThemeData redTheme = ThemeData(
       style: BorderStyle.none,
     ),
     borderRadius: BorderRadius.all(Radius.circular(0.0)),
-  )),
+  )), checkboxTheme: CheckboxThemeData(
+ fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return Color(0xffe53935); }
+ return null;
+ }),
+ ), radioTheme: RadioThemeData(
+ fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return Color(0xffe53935); }
+ return null;
+ }),
+ ), switchTheme: SwitchThemeData(
+ thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return Color(0xffe53935); }
+ return null;
+ }),
+ trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return Color(0xffe53935); }
+ return null;
+ }),
+ ), bottomAppBarTheme: BottomAppBarTheme(color: Color(0xffffffff)), colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(background: Color(0xffef9a9a)).copyWith(error: Color(0xffd32f2f)),
 );

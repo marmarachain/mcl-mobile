@@ -86,12 +86,16 @@
       "addressSelect":"Adres Seçiniz",
       "testmaxthree":"Test sürümünde 3 den fazla eklenemez!",
       "approve":"Onayla",
-      "copiedToClipboard":"Panoya kopyalandı"
+      "copiedToClipboard":"Panoya kopyalandı",
+      "list":"Listele",
+      "filter":"Filtre"
     },
     "contact":{
       "name":"Kişiler",
       "yet":"Henüz kişi eklemediniz!",
-      "address":"Adres"
+      "address":"Adres",
+      "delete":"Kişi Silme",
+      "isDelete":"Silmek istediğinize emin misiniz?"
     },
     "bootstrap":{
       "name":"Bootstrap Yükleme"

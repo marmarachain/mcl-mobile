@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hive/hive.dart';
 import 'package:mcl/app/app.locator.dart';
 import 'package:mcl/app/app.logger.dart';
 import 'package:mcl/app/app.router.dart';
@@ -408,57 +407,57 @@ class ChainViewModel extends BaseViewModel {
   }
 
   Future<void> onClickMclStart({bool firstStart = false}) async {
-    cmdLineResult = "";
-    _array = null;
+    // cmdLineResult = "";
+    // _array = null;
 
-    try {
-      String resultConnect;
+    // try {
+    //   String resultConnect;
 
-      resultConnect = await _sshService.currentServer.startShell(
-          ptyType: "xterm",
-          callback: (dynamic res) {
-            cmdLineResult = '';
-            cmdLineResult += res;
-            print(res);
-            notifyListeners();
-          });
+    //   resultConnect = await _sshService.currentServer.startShell(
+    //       ptyType: "xterm",
+    //       callback: (dynamic res) {
+    //         cmdLineResult = '';
+    //         cmdLineResult += res;
+    //         print(res);
+    //         notifyListeners();
+    //       });
 
-      if (resultConnect == "shell_started") {
-        print(await _sshService.currentServer
-            .writeToShell("echo hello > world\n"));
-        if (firstStart || character == '') {
-          print(await _sshService.currentServer.writeToShell(
-              "${_sshService.currentServer.pathMclCli}komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=149.202.158.145 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 &\n"));
-        } else {
-          pubKeyIs = true;
-          _sshService.pubKey = character;
-          print(await _sshService.currentServer.writeToShell(
-              "${_sshService.currentServer.pathMclCli}komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=46.4.238.65 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 -gen -genproclimit=0 -pubkey=$character &\n"));
-        }
+    //   if (resultConnect == "shell_started") {
+    //     print(await _sshService.currentServer
+    //         .writeToShell("echo hello > world\n"));
+    //     if (firstStart || character == '') {
+    //       print(await _sshService.currentServer.writeToShell(
+    //           "${_sshService.currentServer.pathMclCli}komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=149.202.158.145 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 &\n"));
+    //     } else {
+    //       pubKeyIs = true;
+    //       _sshService.pubKey = character;
+    //       print(await _sshService.currentServer.writeToShell(
+    //           "${_sshService.currentServer.pathMclCli}komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addnode=46.4.238.65 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 -gen -genproclimit=0 -pubkey=$character &\n"));
+    //     }
 
-        await EasyLoading.show(
-          status: '${LocaleKeys.home_loading.locale}...',
-          maskType: EasyLoadingMaskType.black,
-        );
-        await Future.delayed(Duration(seconds: 3));
-        var chainStartControl = "loading block index";
-        while (chainStartControl == "loading block index") {
-          var infoBlock = await _sshService.getInfoBlockChain();
-          chainStartControl = infoBlock;
-          print(infoBlock);
-          await Future.delayed(Duration(seconds: 4));
-          if (infoBlock == "loading block index") {
-          } else {
-            await EasyLoading.dismiss();
-          }
-        }
+    //     await EasyLoading.show(
+    //       status: '${LocaleKeys.home_loading.locale}...',
+    //       maskType: EasyLoadingMaskType.black,
+    //     );
+    //     await Future.delayed(Duration(seconds: 3));
+    //     var chainStartControl = "loading block index";
+    //     while (chainStartControl == "loading block index") {
+    //       var infoBlock = await _sshService.getInfoBlockChain();
+    //       chainStartControl = infoBlock;
+    //       print(infoBlock);
+    //       await Future.delayed(Duration(seconds: 4));
+    //       if (infoBlock == "loading block index") {
+    //       } else {
+    //         await EasyLoading.dismiss();
+    //       }
+    //     }
 
-        print(await _sshService.currentServer.writeToShell("cat world\n"));
-      }
-      buttonStart = false;
-    } on PlatformException catch (e) {
-      print('Error: ${e.code}\nError Message: ${e.message}');
-    }
+    //     print(await _sshService.currentServer.writeToShell("cat world\n"));
+    //   }
+    //   buttonStart = false;
+    // } on PlatformException catch (e) {
+    //   print('Error: ${e.code}\nError Message: ${e.message}');
+    // }
   }
 }
 

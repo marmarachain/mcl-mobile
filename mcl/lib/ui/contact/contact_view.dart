@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/models/person.dart';
-import 'package:mcl/models/chain.dart';
 import 'package:mcl/ui/contact/new_person.dart';
 import 'package:mcl/widgets/common_page.dart';
-import 'package:mcl_ui/mcl_ui.dart';
 import 'package:stacked/stacked.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -38,17 +35,11 @@ class ContactView extends StatelessWidget {
                 },
               );
               ;
-              //   Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => KisilerView(),
-              //   ),
-              // )
             },
           )
         ],
         child: ValueListenableBuilder<Box<dynamic>>(
-            valueListenable: Hive.box('kisiler').listenable(),
+            valueListenable: Hive.box('contacts').listenable(),
             builder: (context, kisilerBox, widget) {
               return Container(
                 // height: screenHeightPercentage(context, percentage: 0.8),
@@ -89,16 +80,6 @@ class ContactView extends StatelessWidget {
                                 subtitle: Text(
                                   kisi.pubKey,
                                 ),
-                                // trailing: IconButton(
-                                //   icon: Icon(Icons.arrow_right),
-                                //   color: Theme.of(context).errorColor,
-                                //   onPressed: () => Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder: (context) => MclDetailView(),
-                                //     ),
-                                //   ),
-                                // ),
                               ),
                             ),
                             actions: <Widget>[

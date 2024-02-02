@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/models/person.dart';
 import 'package:mcl/ui/receive_send/receive_send_viewmodel.dart';
@@ -168,7 +166,7 @@ class ReceiveSendView extends StatelessWidget {
                                                           Navigator.of(context)
                                                               .pop();
                                                         },
-                                                        child: QrImage(
+                                                        child: QrImageView(
                                                           data: model
                                                               .getWalletAddress(),
                                                           version:
@@ -207,8 +205,6 @@ class ReceiveSendView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               if (model.result != null)
-                                // Text(
-                                //     'Barcode Type: ${describeEnum(model.result!.format)}   Data: ${model.result!.code}')
                                 MclText.body(
                                     '${LocaleKeys.receivesend_receiveAddress.locale}: ${model.result!.code}')
                               else
@@ -293,7 +289,7 @@ class ReceiveSendView extends StatelessWidget {
                                       onPressed: () {
                                         if (model.result != null) {
                                           model.walletAddressSet(
-                                              model.result!.code);
+                                              model.result!.code!);
                                         }
 
                                         model.openQrCamera = false;
@@ -341,7 +337,6 @@ class ReceiveSendView extends StatelessWidget {
                     })
               ],
             ),
-
             Divider(height: 2, thickness: 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -353,7 +348,7 @@ class ReceiveSendView extends StatelessWidget {
                 // height: 350,
                 child: Expanded(
                     child: ValueListenableBuilder<Box<dynamic>>(
-                        valueListenable: Hive.box('kisiler').listenable(),
+                        valueListenable: Hive.box('contacts').listenable(),
                         builder: (context, kisilerBox, widget) {
                           return ListView.builder(
                               itemCount: kisilerBox.length,
@@ -381,12 +376,9 @@ class ReceiveSendView extends StatelessWidget {
                                   //     ? Icon(Icons.check)
                                   //     : SizedBox(),
                                   onTap: () {
-                                    print(index);
-                                    // viewModel.selectedContact = index;
                                     viewModel.addressController.text =
                                         kisi.cuzdanAdresi;
-                                    // viewModel.bearerName = kisi.isim;
-                                    // notifyListeners();
+
                                     Navigator.of(context).pop();
                                     // openContactBook(ctx);
                                     // buildBottomSheetContacts(context, viewModel);
@@ -394,12 +386,6 @@ class ReceiveSendView extends StatelessWidget {
                                 );
                               });
                         }))),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       // bearerPubKeyController.text = ''
-            //       Navigator.of(context).pop();
-            //     },
-            //     child: Text('Onayla'))
           ],
         ),
       );

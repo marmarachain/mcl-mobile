@@ -1,6 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/models/chain.dart';
 import 'package:mcl/ui/chain/chain_viewmodel.dart';
@@ -72,7 +71,7 @@ class ChainView extends StatelessWidget {
                       ),
                     ),
                     child: ValueListenableBuilder<Box<dynamic>>(
-                      valueListenable: Hive.box('sunucular').listenable(),
+                      valueListenable: Hive.box('servers').listenable(),
                       builder: (context, mclBlocBox, widget) {
                         var mclBlocChain = Chain(
                             address: '', port: 22, title: '', username: '');
@@ -90,7 +89,6 @@ class ChainView extends StatelessWidget {
                                     direction: Axis.vertical,
                                     runAlignment: WrapAlignment.spaceBetween,
                                     children: [
-                                      // MclText.subheading('Dashboard: 1'),
                                       MclText.body(
                                           '${LocaleKeys.chain_activity.locale}: ${mclBlocChain.getinfo!['synced'] ? "${LocaleKeys.common_yes.locale}" : "${LocaleKeys.common_no.locale}"}'),
                                       MclText.body(
@@ -138,7 +136,6 @@ class ChainView extends StatelessWidget {
                     },
                   ),
                 ),
-                // Text(model.cmdLineResult),
                 Align(
                   alignment: Alignment.topLeft,
                   child: MclText.body('${LocaleKeys.chain_myWallets.locale}'),
@@ -159,7 +156,6 @@ class ChainView extends StatelessWidget {
                               children: [
                                 Text(
                                     "${item.id + 1}. ${LocaleKeys.chain_myWallet.locale}"),
-                                // Text(item.balance.toStringAsFixed(2)),
                                 IconButton(
                                     icon: Icon(
                                       Icons.account_balance_wallet,
@@ -190,29 +186,16 @@ class ChainView extends StatelessWidget {
                         body: ListTile(
                             title: Text(item.expandedValue),
                             subtitle: Text("${item.headerValue}"),
-                            // trailing: Row(
-                            //   children: [
-                            //     Icon(Icons.delete),
-                            //     Icon(Icons.keyboard)
-                            //   ],
-                            // ),
-                            onTap: () {
-                              // _data
-                              //     .removeWhere((Item currentItem) => item == currentItem);
-                            }));
+                            onTap: () {}));
                   }).toList(),
                 ),
                 SizedBox(
                   height: 18,
                 ),
-                // Text(model.cmdLineResult),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton.icon(
-                      // style: ElevatedButton.styleFrom(
-                      //     primary: Theme.of(context).secondaryHeaderColor,
-                      //     textStyle: TextStyle(color: Colors.black)),
                       onPressed: model.buttonStart
                           ? () => model.onClickMclStart()
                           : null,
@@ -237,7 +220,6 @@ class ChainView extends StatelessWidget {
                         height: 30,
                         width: 250.0,
                         child: Container(
-                          // color: Colors.yellow,
                           child: DefaultTextStyle(
                             style: const TextStyle(
                               fontSize: 18.0,
@@ -297,10 +279,6 @@ class ChainView extends StatelessWidget {
                         child: Text("${LocaleKeys.chain_seePrivate.locale}")),
                   ],
                 ),
-                // Text(
-                //   model.cmdLineResult,
-                //   style: TextStyle(color: Colors.white),
-                // ),
               ],
             ),
           ),
@@ -320,22 +298,6 @@ class ChainView extends StatelessWidget {
             children: [
               Text('${LocaleKeys.chain_createNewAddress.locale}'),
               Divider(height: 2, thickness: 2),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     // model.switchStateEndorser
-              //     //     ? LocaleText(
-              //     //         value:
-              //     //             LocaleKeys.credit_endorser_endorsement_request_list)
-              //     //     : LocaleText(
-              //     //         value: LocaleKeys.credit_endorser_bearer_loops),
-              //     Switch(
-              //         value: viewModel.switchWordGroup,
-              //         onChanged: (bool deger) {
-              //           viewModel.switchWordGroup = deger;
-              //         })
-              //   ],
-              // ),
               TextField(
                   keyboardType: TextInputType.multiline,
                   minLines: 1,
@@ -360,7 +322,6 @@ class ChainView extends StatelessWidget {
                   controller: viewModel.workGroupControllerEqual
                   // onSubmitted: (_) => _submitData(),
                   ),
-
               Align(
                 child: Text('*${LocaleKeys.chain_optional.locale}'),
                 alignment: Alignment.topRight,
@@ -368,7 +329,7 @@ class ChainView extends StatelessWidget {
               ElevatedButton(
                 child: Text('${LocaleKeys.chain_createNewAddress.locale}'),
                 style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                     textStyle: TextStyle(color: Colors.black)),
                 onPressed: () {
                   viewModel.onClickNewWalletAddressCreate(context);
@@ -390,9 +351,6 @@ class ChainView extends StatelessWidget {
                         keyboardType: TextInputType.multiline,
                         minLines: 1,
                         maxLines: 2,
-                        // onChanged: (val) {
-                        //   titleInput = val;
-                        // },
                       )),
                   IconButton(icon: Icon(Icons.copy_outlined), onPressed: () {}),
                 ],

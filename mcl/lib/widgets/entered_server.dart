@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/core/extension/string_extension.dart';
 
@@ -15,8 +14,6 @@ class EnteredServer extends StatefulWidget {
 class _EnteredServerState extends State<EnteredServer> {
   final _titleController = TextEditingController();
   bool? _passwordVisible = false;
-
-  // DateTime? _selectedDate;
 
   void _submitData() {
     if (_titleController.text.isEmpty) {
@@ -42,7 +39,6 @@ class _EnteredServerState extends State<EnteredServer> {
       child: Container(
         padding: EdgeInsets.all(10),
         child: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             Align(
                 alignment: Alignment.topLeft,
@@ -81,7 +77,7 @@ class _EnteredServerState extends State<EnteredServer> {
             ElevatedButton(
               child: Text('${LocaleKeys.home_serverConOk.locale}'),
               style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                   textStyle: TextStyle(color: Colors.black)),
               onPressed: _submitData,
             ),

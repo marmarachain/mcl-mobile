@@ -80,10 +80,14 @@ abstract class  LocaleKeys {
   static const common_testmaxthree = 'common.testmaxthree';
   static const common_approve = 'common.approve';
   static const common_copiedToClipboard = 'common.copiedToClipboard';
+  static const common_list = 'common.list';
+  static const common_filter = 'common.filter';
   static const common = 'common';
   static const contact_name = 'contact.name';
   static const contact_yet = 'contact.yet';
   static const contact_address = 'contact.address';
+  static const contact_delete = 'contact.delete';
+  static const contact_isDelete = 'contact.isDelete';
   static const contact = 'contact';
   static const bootstrap_name = 'bootstrap.name';
   static const bootstrap = 'bootstrap';

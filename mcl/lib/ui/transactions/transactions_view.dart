@@ -1,13 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mcl/core/components/slider/range_price_slider.dart';
+import 'package:mcl/core/extension/string_extension.dart';
 import 'package:mcl/core/init/lang/locale_keys.g.dart';
 import 'package:mcl/models/person.dart';
-import 'package:mcl/models/chain.dart';
 import 'package:mcl/models/transaction.dart';
-import 'package:mcl/ui/contact/new_person.dart';
 import 'package:mcl/widgets/common_page.dart';
 import 'package:mcl_ui/mcl_ui.dart';
 import 'package:stacked/stacked.dart';
@@ -53,7 +51,6 @@ class TransactionsView extends StatelessWidget {
                         itemBuilder: (ctx, index) {
                           var transaction =
                               transactionBox.get(index) as Transaction;
-                          // print(transactionBox.get(index)['address']);
                           return Card(
                             elevation: 5,
                             margin: EdgeInsets.symmetric(
@@ -87,16 +84,6 @@ class TransactionsView extends StatelessWidget {
                               subtitle: Text(
                                 transaction.blocktime.toConvertDateTime,
                               ),
-                              // trailing: IconButton(
-                              //   icon: Icon(Icons.arrow_right),
-                              //   color: Theme.of(context).errorColor,
-                              //   onPressed: () => Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) => MclDetailView(),
-                              //     ),
-                              //   ),
-                              // ),
                             ),
                           );
                         },
@@ -116,7 +103,7 @@ class TransactionsView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Filter'),
+            Text(LocaleKeys.common_filter.locale),
             Divider(height: 2, thickness: 2),
             Row(
               children: [
@@ -138,11 +125,6 @@ class TransactionsView extends StatelessWidget {
                     },
                   ),
                 ),
-                // IconButton(
-                //     onPressed: () {
-                //       viewModel.fetchMinMax();
-                //     },
-                //     icon: Icon(Icons.check_box_outline_blank))
               ],
             ),
             SizedBox(
@@ -168,44 +150,12 @@ class TransactionsView extends StatelessWidget {
                     },
                   ),
                 ),
-                // IconButton(
-                //     onPressed: () {
-                //       viewModel.fetchMinMax();
-                //     },
-                //     icon: Icon(Icons.check_box_outline_blank))
               ],
             ),
-            // Card(
-            //   child: Column(
-            //     children: [
-            //       Wrap(
-            //         spacing: 10,
-            //         children: MclLoopSortValues.values
-            //             .map((e) => IconButton(
-            //                 padding: EdgeInsets.zero,
-            //                 onPressed: () {
-            //                   viewModel.fetchSort(e);
-            //                 },
-            //                 icon: Text(e.rawValue, maxLines: 1)))
-            //             .toList(),
-            //       ),
-            //       Row(
-            //         children: [
-            //           IconButton(
-            //               onPressed: () => viewModel.changeAscending(true),
-            //               icon: Icon(Icons.north)),
-            //           IconButton(
-            //               onPressed: () => viewModel.changeAscending(false),
-            //               icon: Icon(Icons.south)),
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // ),
             MclButton(
-              title: "Listele",
+              title: LocaleKeys.common_list.locale,
               onTap: () {
-                print("Transaction List");
+                inspect("Transaction List");
                 viewModel.onClickListTransactions();
               },
             )
